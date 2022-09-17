@@ -113,7 +113,7 @@ global styles
 */
 html,
 body {
-  background: #304B62;
+  background: #DDDBCB;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -251,11 +251,11 @@ header
 }
 
 .background-header .main-nav .nav li:hover a {
-  color: #342572!important;
+  color: #FFFFFF!important;
 }
 
 .background-header .nav li a.active {
-  color: #342572!important;
+  color: #FFFFFF!important;
 }
 
 .header-area {
@@ -1109,14 +1109,14 @@ footer .social li a {
 footer .social li a:hover {
   background-color: #fba70b;
   border-color: #fba70b;
-  color: #fff;
+  color: #050505;
 }
 
 footer .copyright {
   margin-top: 10px;
   font-weight: 400;
   font-size: 15px;
-  color: #4a4a4a;
+  color: #050505;
   letter-spacing: 0.88px;
   text-transform: capitalize;
 }
@@ -1128,7 +1128,7 @@ footer .sub-footer {
 }
 
 footer .sub-footer a {
-	color: #FFF;
+	color: #050505;
 }
 
 footer .sub-footer a:hover {
@@ -1136,7 +1136,7 @@ footer .sub-footer a:hover {
 }
 
 footer .sub-footer p {
-  color: #fff;
+  color: #050505;
   font-size: 15px;
   font-weight: 300;
   letter-spacing: 0.5px;
