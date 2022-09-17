@@ -80,7 +80,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #B2E3C6;
+  background-color: #304B62;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -147,7 +147,7 @@ a.main-button-slider {
   font-size: 14px;
   border-radius: 25px;
   padding: 15px 25px;
-  background-color: #352572;
+  background-color: #342572;
   text-transform: uppercase;
   color: #B2E3C6;
   font-weight: 600;
@@ -236,7 +236,7 @@ header
 */
 
 .background-header {
-  background-color: #B2E3C6;
+  background-color: #466479;
   height: 80px!important;
   position: fixed!important;
   top: 0px;
@@ -296,7 +296,7 @@ header
   margin-top: 27px;
   margin-left: 15%;
   margin-right: 0px;
-  background-color: #B2E3C6;
+  background-color: #466479;
   padding: 0px 20px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
@@ -1158,7 +1158,7 @@ preloader
 */
 #preloader {
   overflow: hidden;
-  background-image: linear-gradient(145deg, #f4813f 0%, #f1556a 100%);
+  background-image: linear-gradient(145deg, #466479 0%, #304B62 100%);
   left: 0;
   right: 0;
   top: 0;
