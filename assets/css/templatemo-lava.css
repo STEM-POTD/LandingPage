@@ -190,7 +190,7 @@ button.main-button {
   padding: 15px 25px;
   background-color: #f4813f;
   text-transform: uppercase;
-  color: #fff;
+  color: #B2E3C6;
   font-weight: 600;
   letter-spacing: 1px;
   -webkit-transition: all 0.3s ease 0s;
@@ -236,7 +236,7 @@ header
 */
 
 .background-header {
-  background-color: #fff;
+  background-color: #B2E3C6;
   height: 80px!important;
   position: fixed!important;
   top: 0px;
@@ -296,7 +296,7 @@ header
   margin-top: 27px;
   margin-left: 15%;
   margin-right: 0px;
-  background-color: #fff;
+  background-color: #B2E3C6;
   padding: 0px 20px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
@@ -371,7 +371,7 @@ header
 
 .header-area .main-nav .nav li.submenu ul li a {
   display: block;
-  background: #fff;
+  background: #B2E3C6;
   color: #7a7a7a!important;
   padding-left: 20px;
   height: 40px;
@@ -401,7 +401,7 @@ header
 }
 
 .header-area .main-nav .nav li.submenu ul li a:hover {
-  background: #fff;
+  background: #B2E3C6;
   color: #fba70b!important;
   padding-left: 25px;
 }
@@ -591,7 +591,7 @@ header
   }
   .header-area .main-nav .nav li {
     width: 100%;
-    background: #fff;
+    background: #B2E3C6;
     border-bottom: 1px solid #eee;
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -996,7 +996,7 @@ footer .footer-content {
   z-index: 10;
   padding: 45px;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: #B2E3C6;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   
 }
@@ -1181,7 +1181,7 @@ preloader
 }
 
 #preloader .jumper > div {
-  background-color: #fff;
+  background-color: #B2E3C6;
   width: 10px;
   height: 10px;
   border-radius: 100%;
