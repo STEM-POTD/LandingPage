@@ -103,7 +103,7 @@ ul {
 p {
   font-size: 15px;
   line-height: 25px;
-  color: #B2E3C6;
+  color: #050505;
 }
 
 /* 
@@ -149,7 +149,7 @@ a.main-button-slider {
   padding: 15px 25px;
   background-color: #342572;
   text-transform: uppercase;
-  color: #B2E3C6;
+  color: #050505;
   font-weight: 600;
   letter-spacing: 1px;
   -webkit-transition: all 0.3s ease 0s;
@@ -168,7 +168,7 @@ a.main-button {
   padding: 15px 25px;
   background-color: #352572;
   text-transform: uppercase;
-  color: #B2E3C6;
+  color: #050505;
   font-weight: 600;
   letter-spacing: 1px;
   -webkit-transition: all 0.3s ease 0s;
@@ -190,7 +190,7 @@ button.main-button {
   padding: 15px 25px;
   background-color: #352572;
   text-transform: uppercase;
-  color: #B2E3C6;
+  color: #050505;
   font-weight: 600;
   letter-spacing: 1px;
   -webkit-transition: all 0.3s ease 0s;
@@ -219,7 +219,7 @@ button.main-button:hover {
 
 .center-heading h2 em {
   font-style: normal;
-  color: #B2E3C6;
+  color: #050505;
 }
 
 .center-heading p {
@@ -676,7 +676,7 @@ welcome
   line-height: 80px;
   letter-spacing: 1px;
   margin-bottom: 30px;
-  color: #B2E3C6;
+  color: #050505;
 }
 
 .welcome-area .header-text h1 em {
@@ -687,7 +687,7 @@ welcome
 .welcome-area .header-text p {
   font-weight: 300;
   font-size: 17px;
-  color: #B2E3C6;
+  color: #050505;
   line-height: 30px;
   letter-spacing: 0.25px;
   margin-bottom: 40px;
