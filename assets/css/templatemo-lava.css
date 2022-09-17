@@ -113,17 +113,17 @@ global styles
 */
 html,
 body {
-  background: #466479;
+  background: #304B62;
   font-family: 'Poppins', sans-serif;
 }
 
 ::selection {
-  background: #f1556a;
+  background: #342572;
   color: #466479;
 }
 
 ::-moz-selection {
-  background: #f1556a;
+  background: #342572;
   color: #466479;
 }
 
