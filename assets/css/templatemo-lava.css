@@ -113,7 +113,7 @@ global styles
 */
 html,
 body {
-  background: #B2E3C6;
+  background: #466479;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -371,7 +371,7 @@ header
 
 .header-area .main-nav .nav li.submenu ul li a {
   display: block;
-  background: #B2E3C6;
+  background: #466479;
   color: #7a7a7a!important;
   padding-left: 20px;
   height: 40px;
@@ -401,7 +401,7 @@ header
 }
 
 .header-area .main-nav .nav li.submenu ul li a:hover {
-  background: #B2E3C6;
+  background: #466479;
   color: #fba70b!important;
   padding-left: 25px;
 }
@@ -591,7 +591,7 @@ header
   }
   .header-area .main-nav .nav li {
     width: 100%;
-    background: #B2E3C6;
+    background: #466479;
     border-bottom: 1px solid #eee;
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -996,7 +996,7 @@ footer .footer-content {
   z-index: 10;
   padding: 45px;
   border-radius: 5px;
-  background-color: #B2E3C6;
+  background-color: #466479;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   
 }
@@ -1181,7 +1181,7 @@ preloader
 }
 
 #preloader .jumper > div {
-  background-color: #B2E3C6;
+  background-color: #466479;
   width: 10px;
   height: 10px;
   border-radius: 100%;
