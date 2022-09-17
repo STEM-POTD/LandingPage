@@ -113,18 +113,18 @@ global styles
 */
 html,
 body {
-  background: #fff;
+  background: #B2E3C6;
   font-family: 'Poppins', sans-serif;
 }
 
 ::selection {
   background: #f1556a;
-  color: #fff;
+  color: #B2E3C6;
 }
 
 ::-moz-selection {
   background: #f1556a;
-  color: #fff;
+  color: #B2E3C6;
 }
 
 @media (max-width: 991px) {
@@ -149,7 +149,7 @@ a.main-button-slider {
   padding: 15px 25px;
   background-color: #fba70b;
   text-transform: uppercase;
-  color: #fff;
+  color: #B2E3C6;
   font-weight: 600;
   letter-spacing: 1px;
   -webkit-transition: all 0.3s ease 0s;
@@ -168,7 +168,7 @@ a.main-button {
   padding: 15px 25px;
   background-color: #f4813f;
   text-transform: uppercase;
-  color: #fff;
+  color: #B2E3C6;
   font-weight: 600;
   letter-spacing: 1px;
   -webkit-transition: all 0.3s ease 0s;
