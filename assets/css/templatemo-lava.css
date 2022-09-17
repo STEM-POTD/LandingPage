@@ -80,7 +80,7 @@ header, nav, section, article, aside, footer, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #fff;
+  background-color: #B2E3C6;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -675,18 +675,18 @@ welcome
   line-height: 80px;
   letter-spacing: 1px;
   margin-bottom: 30px;
-  color: #191a20;
+  color: #304b62;
 }
 
 .welcome-area .header-text h1 em {
   font-style: normal;
-  color: #fba70b;
+  color:#352572;
 }
 
 .welcome-area .header-text p {
   font-weight: 300;
   font-size: 17px;
-  color: #7a7a7a;
+  color: #466479;
   line-height: 30px;
   letter-spacing: 0.25px;
   margin-bottom: 40px;
@@ -833,7 +833,7 @@ promotion
 }
 
 #promotion .right-text img {
-  display: inline-block;
+  display: block;
   float: left;
   margin-right: 30px;
 }
