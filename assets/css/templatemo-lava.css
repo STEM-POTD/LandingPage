@@ -119,12 +119,12 @@ body {
 
 ::selection {
   background: #342572;
-  color: #466479;
+  color: #1B9AAA;
 }
 
 ::-moz-selection {
   background: #342572;
-  color: #466479;
+  color: #1B9AAA;
 }
 
 @media (max-width: 991px) {
@@ -147,7 +147,7 @@ a.main-button-slider {
   font-size: 14px;
   border-radius: 25px;
   padding: 15px 25px;
-  background-color: #342572;
+  background-color: #F5F1E3;
   text-transform: uppercase;
   color: #050505;
   font-weight: 600;
@@ -159,14 +159,14 @@ a.main-button-slider {
 }
 
 a.main-button-slider:hover {
-  background-color: #73256C;
+  background-color: #FFFFFF;
 }
 
 a.main-button {
   font-size: 14px;
   border-radius: 25px;
   padding: 15px 25px;
-  background-color: #352572;
+  background-color: #F5F1E3;
   text-transform: uppercase;
   color: #050505;
   font-weight: 600;
@@ -178,7 +178,7 @@ a.main-button {
 }
 
 a.main-button:hover {
-  background-color: #73256C;
+  background-color: #FFFFFF;
 }
 
 button.main-button {
@@ -213,7 +213,7 @@ button.main-button:hover {
   text-align: center;
   font-size: 42px;
   font-weight: 700;
-  color: #342572;
+  color: #050505;
   margin-bottom: 25px;
 }
 
