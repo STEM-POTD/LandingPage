@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="TemplateMo">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <title>STEM POTD</title>
+
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css">
+    <link rel="stylesheet" href="../assets/css/extra.css">
+    <link rel="stylesheet" href="../assets/css/templatemo-lava.css">
+
+    <link rel="stylesheet" href="../assets/css/owl-carousel.css">
+
+</head>
+
+<body>
+
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="/" class="logo">
+                            STEM POTD
+                        </a>
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="/" class="menu-item">Home</a></li>
+                            <!-- <li class="scroll-to-section"><a href="#about" class="menu-item">News</a></li>
+                            <li class="scroll-to-section"><a href="#testimonials" class="menu-item">Team</a>-->
+                            </li>
+<!--                             <li class="submenu">
+                                <a href="javascript:;">Drop Down</a>
+                                <ul>
+                                    <li><a href="" class="menu-item">About Us</a></li>
+                                    <li><a href="" class="menu-item">Features</a></li>
+                                    <li><a href="" class="menu-item">FAQ's</a></li>
+                                    <li><a href="" class="menu-item">Blog</a></li>
+                                </ul>
+                            </li> -->
+                            <li class="scroll-to-section"><a href="/login" class="menu-item">Login</a></li>
+                            <li class="scroll-to-section"><a href="/register" class="menu-item">Register</a></li>
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+   <section id="login" class="login" >
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h3><span>Register:</span></h3>
+
+            <% if (messages.error) { %>
+                 <p style = "color: red"><%= messages.error %></p>
+            <% } %>
+            
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100" >
+          <div class="col-lg-6 center" >
+            <form class="input-forms" action="/register" method="post">
+              <div class="row">
+                <div class="col form-group">
+                  <input type="text" class="form-control" id="username" placeholder="Username" name="username" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+              </div>
+              <div class="text-center"><button type="submit" class="btn btn-primary">Register</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </section>
+
+    <!-- jQuery -->
+    <script src="../assets/js/jquery-2.1.0.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="../assets/js/popper.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+
+    <!-- Plugins -->
+    <script src="../assets/js/owl-carousel.js"></script>
+    <script src="../assets/js/scrollreveal.min.js"></script>
+    <script src="../assets/js/waypoints.min.js"></script>
+    <script src="../assets/js/jquery.counterup.min.js"></script>
+    <script src="../assets/js/imgfix.min.js"></script>
+
+    <!-- Global Init -->
+    <script src="../assets/js/custom.js"></script>
+
+</body>
+</html>
+
