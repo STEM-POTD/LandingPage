@@ -18,10 +18,7 @@ const LandingAboutComponent = () => {
                     >
                         <div className="features-item">
                             <h2>01</h2>
-                            <img
-                                src={image}
-                                alt=""
-                            />
+                            <img src={image} alt="" />
                             <h4>[Insert Name Here]</h4>
                             <p>
                                 STEM POTD's first math competition! Expect

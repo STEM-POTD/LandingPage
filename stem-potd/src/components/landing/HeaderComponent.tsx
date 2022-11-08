@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-const HeaderComponent = () => {
+const HeaderComponent: React.FC = () => {
     type activeElem = 'home' | 'news' | 'team' | 'login'
 
     const [active, setActive] = useState<activeElem>('home')
@@ -21,7 +21,7 @@ const HeaderComponent = () => {
                                 <li className="scroll-to-section">
                                     <a
                                         id={'home'}
-                                        href="/LandingPage#welcome"
+                                        href="#welcome"
                                         className={`menu-item`}
                                     >
                                         Home
@@ -30,7 +30,7 @@ const HeaderComponent = () => {
                                 <li className="scroll-to-section">
                                     <a
                                         id={'news'}
-                                        href="/LandingPage#about"
+                                        href="#about"
                                         className={`menu-item`}
                                     >
                                         News
@@ -39,7 +39,7 @@ const HeaderComponent = () => {
                                 <li className="scroll-to-section">
                                     <a
                                         id={'team'}
-                                        href="/LandingPage#testimonials"
+                                        href="#testimonials"
                                         className={`menu-item`}
                                     >
                                         Team
