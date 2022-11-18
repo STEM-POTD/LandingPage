@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 const HeaderComponent: React.FC = () => {
-    type activeElem = 'home' | 'news' | 'team' | 'login'
-
-    const [active, setActive] = useState<activeElem>('home')
-
     return (
         <header className="header-area header-sticky">
             <Container>
@@ -21,7 +17,7 @@ const HeaderComponent: React.FC = () => {
                                 <li className="scroll-to-section">
                                     <a
                                         id={'home'}
-                                        href="#welcome"
+                                        href="/#welcome"
                                         className={`menu-item`}
                                     >
                                         Home
@@ -30,7 +26,7 @@ const HeaderComponent: React.FC = () => {
                                 <li className="scroll-to-section">
                                     <a
                                         id={'news'}
-                                        href="#about"
+                                        href="/#about"
                                         className={`menu-item`}
                                     >
                                         News
@@ -39,7 +35,7 @@ const HeaderComponent: React.FC = () => {
                                 <li className="scroll-to-section">
                                     <a
                                         id={'team'}
-                                        href="#testimonials"
+                                        href="/#testimonials"
                                         className={`menu-item`}
                                     >
                                         Team
@@ -52,6 +48,15 @@ const HeaderComponent: React.FC = () => {
                                         className={`menu-item`}
                                     >
                                         Sign In
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        id={'practice'}
+                                        href="/practice"
+                                        className={`menu-item`}
+                                    >
+                                        Start Practicing
                                     </a>
                                 </li>
                             </ul>

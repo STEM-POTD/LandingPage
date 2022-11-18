@@ -18,32 +18,15 @@ const LandingTestimonialComponent: React.FC = () => {
                             </h2>
                             <p>Our staff</p>
                         </div>
-                    </Col>
-                    <Col
-                        lg={10}
-                        md={12}
-                        sm={12}
-                        className="mobile-bottom-fix-big"
-                        data-scroll-reveal="enter left move 30px over 0.6s after 0.4s"
-                    >
-                        <Carousel fade interval={null} indicators={false}>
-                            {testimonials.map(
-                                (testimonial, index, remaining) => {
-                                    return (
-                                        <Carousel.Item key={index}>
-                                            <Testimonial
-                                                testimonial={testimonial}
-                                                next={
-                                                    index + 1 >
-                                                    remaining.length - 1
-                                                        ? remaining[0]
-                                                        : remaining[index + 1]
-                                                }
-                                            />
-                                        </Carousel.Item>
-                                    )
-                                }
-                            )}
+                        <Carousel indicators={false} fade>
+                            {testimonials.map((testimonial, index) => (
+                                <Carousel.Item>
+                                    <Testimonial
+                                        key={index}
+                                        testimonial={testimonial}
+                                    />
+                                </Carousel.Item>
+                            ))}
                         </Carousel>
                     </Col>
                 </Row>
@@ -54,56 +37,27 @@ const LandingTestimonialComponent: React.FC = () => {
 
 const Testimonial: React.FC<{
     testimonial: typeof testimonials[number]
-    next: typeof testimonials[number]
-}> = ({ testimonial, next }) => {
+}> = ({ testimonial }) => {
     return (
-        <div className="flex flex-row">
-            <div className="item service-item">
-                <div className="author">
-                    <i>
-                        <img
-                            src={testimonial.image}
-                            alt={testimonial.altText}
-                        />
-                    </i>
-                </div>
-                <div className="testimonial-content">
-                    <ul className="stars">
-                        {Array.from(Array(testimonial.stars).keys()).map(
-                            (star) => {
-                                return (
-                                    <li key={star}>
-                                        <i className="fa fa-star" />
-                                    </li>
-                                )
-                            }
-                        )}
-                    </ul>
-                    <h4>{testimonial.name}</h4>
-                    <p>{testimonial.description}</p>
-                    <span>{testimonial.title}</span>
-                </div>
+        <div className="item service-item">
+            <div className="author">
+                <i>
+                    <img src={testimonial.image} alt={testimonial.altText} />
+                </i>
             </div>
-            <div className="item service-item">
-                <div className="author">
-                    <i>
-                        <img src={next.image} alt={next.altText} />
-                    </i>
-                </div>
-                <div className="testimonial-content">
-                    <ul className="stars">
-                        {Array.from(Array(next.stars).keys()).map((star) => {
-                            return (
-                                <li key={star}>
-                                    <i className="fa fa-star" />
-                                </li>
-                            )
-                        })}
-                    </ul>
-                    <h4>{next.name}</h4>
-                    <p>{next.description}</p>
-                    <span>{next.title}</span>
-                </div>
+            <div className="testimonial-content">
+                <ul className="stars">
+                    {Array.from(Array(testimonial.stars).keys()).map((star) => {
+                        return (
+                            <li key={star}>
+                                <i className="fa fa-star" />
+                            </li>
+                        )
+                    })}
+                </ul>
+                <h4>{testimonial.name}</h4>
+                <p>{testimonial.description}</p>
+                <span>{testimonial.title}</span>
             </div>
         </div>
     )
