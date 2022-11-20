@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2018",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "module": "commonjs",                                /* Specify what module code is generated. */
+    "experimentalDecorators": true,                     /* Enables experimental support for ES7 decorators. */
+    "emitDecoratorMetadata": true,                      /* Enables experimental support for emitting type metadata for decorators. */
+    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
+    "strict": true,                                      /* Enable all strict type-checking options. */
+    "strictPropertyInitialization": true,             /* Check for class properties that are declared but not set in the constructor. */
+    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+  }
+}

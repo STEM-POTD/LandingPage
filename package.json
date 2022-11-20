@@ -1,26 +1,20 @@
 {
   "name": "stem-potd",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/STEM-POTD/LandingPage.git",
+  "author": "SachetK <71898487+SachetK@users.noreply.github.com>",
   "private": true,
+  "license": "MIT",
   "scripts": {
-    "start": "node ./bin/www",
-    "stop": "sudo kill -9 $(sudo lsof -t -i:3000)"
+    "start": "concurrently \"wsrun --parallel start\""
   },
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "dotenv": "^16.0.1",
-    "ejs": "^3.1.8",
-    "express": "^4.18.1",
-    "express-flash": "^0.0.2",
-    "express-session": "^1.17.3",
-    "http-errors": "~1.6.3",
-    "method-override": "^3.0.0",
-    "morgan": "~1.9.1",
-    "nodemon": "^2.0.19",
-    "passport": "^0.6.0",
-    "passport-local": "^1.0.0",
-    "sqlite3": "^5.0.11"
+  "workspaces": [
+    "server",
+    "website"
+  ],
+  "devDependencies": {
+    "concurrently": "^7.5.0",
+    "wsrun": "^5.2.4"
   }
 }
