@@ -1,0 +1,20 @@
+{
+  "name": "stem-potd",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/STEM-POTD/LandingPage.git",
+  "author": "SachetK <71898487+SachetK@users.noreply.github.com>",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"wsrun --parallel start\""
+  },
+  "workspaces": [
+    "server",
+    "website"
+  ],
+  "devDependencies": {
+    "concurrently": "^7.5.0",
+    "wsrun": "^5.2.4"
+  }
+}

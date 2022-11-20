@@ -20,9 +20,10 @@ const LandingTestimonialComponent: React.FC = () => {
                         </div>
                         <Carousel indicators={false} fade>
                             {testimonials.map((testimonial, index) => (
-                                <Carousel.Item>
+                                <Carousel.Item
+                                    key={index}
+                                >
                                     <Testimonial
-                                        key={index}
                                         testimonial={testimonial}
                                     />
                                 </Carousel.Item>

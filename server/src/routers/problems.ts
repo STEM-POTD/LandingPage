@@ -1,5 +1,5 @@
-import { publicProcedure, router } from "server/trpc";
 import { z } from 'zod';
+import { publicProcedure, router } from '../utils/trpc';
 
 export const problemsRouter = router({
     getProblemsBySubject: publicProcedure
@@ -8,7 +8,7 @@ export const problemsRouter = router({
             subject: z.string(),
         })
     )
-    .query(({ ctx, input: { subject } }) => {
-        return ctx.prisma.problem.findMany();
+    .query(({ ctx }) => {
+        return ctx.prisma?.problem.findMany();
     })
 });
