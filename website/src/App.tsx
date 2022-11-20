@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import LandingMainComponent from './components/landing/LandingMainComponent'
 import HeaderComponent from './components/HeaderComponent'
-import '@assets/css/font-awesome.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/css/templatemo-lava.css'
 import FooterComponent from 'components/FooterComponent'
