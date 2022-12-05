@@ -12,24 +12,26 @@ import PracticeMainComponent from 'components/practice/PracticeMainComponent'
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <LandingMainComponent />,
-  },
-  {
-    path: '/practice',
-    element: <PracticeMainComponent />,
-  }
+    {
+        path: '/',
+        element: <LandingMainComponent />,
+    },
+    {
+        path: '/practice',
+        element: <PracticeMainComponent />,
+    },
 ])
 
 function App() {
-    const [trpcClient] = useState(() => trpc.createClient({
-        links: [
-            httpBatchLink({
-                url: 'http://localhost:8080/api/trpc',
-            }),
-        ]
-    }))    
+    const [trpcClient] = useState(() =>
+        trpc.createClient({
+            links: [
+                httpBatchLink({
+                    url: 'http://localhost:8080/api/trpc',
+                }),
+            ],
+        })
+    )
 
     return (
         <>
@@ -37,17 +39,17 @@ function App() {
                 <QueryClientProvider client={queryClient}>
                     <HeaderComponent />
                     <RouterProvider router={router} />
-                    <ReactQueryDevtools
-                      initialIsOpen
-                      position="bottom-left"
-                      toggleButtonProps={{
-                      style: {
-                          marginLeft: '5.5rem',
-                          transform: `scale(.7)`,
-                          transformOrigin: 'bottom left',
-                      },
-                      }}
-                    />
+                    {/* <ReactQueryDevtools
+                        initialIsOpen
+                        position="bottom-left"
+                        toggleButtonProps={{
+                            style: {
+                                marginLeft: '5.5rem',
+                                transform: `scale(.7)`,
+                                transformOrigin: 'bottom left',
+                            },
+                        }}
+                    /> */}
                     <FooterComponent />
                 </QueryClientProvider>
             </trpc.Provider>

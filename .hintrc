@@ -8,6 +8,18 @@
       {
         "duplicate-id-active": "off"
       }
+    ],
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "text-size-adjust",
+          "-webkit-text-size-adjust",
+          "-moz-user-select",
+          "-ms-filter",
+          "-webkit-tap-highlight-color"
+        ]
+      }
     ]
   }
 }

@@ -1,9 +1,7 @@
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
-import path from 'path';
 import { appRouter } from './routers/_app';
 import { env } from './utils/default';
 import { createContext } from './utils/trpc';
@@ -51,3 +49,5 @@ const port = env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
+
+module.exports = app;
