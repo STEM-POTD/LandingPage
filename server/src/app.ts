@@ -11,7 +11,7 @@ const app = express();
 import { PrismaClient } from "@prisma/client";
 
 declare global {
-    var prisma: PrismaClient | undefined;
+    var prisma: PrismaClient;
 }
 
 export const prisma =
