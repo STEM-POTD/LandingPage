@@ -19,6 +19,7 @@
         "@trpc/react-query": "^10.0.0-rc.8",
         "@trpc/server": "^10.0.0-rc.8",
         "@types/node": "^18.11.9",
+        "better-react-mathjax": "^2.0.2",
         "bootstrap": "^5.2.1",
         "daisyui": "^2.38.1",
         "localforage": "^1.10.0",

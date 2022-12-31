@@ -1,4 +1,5 @@
 import { Problem } from '.prisma/client'
+import MathJax from 'better-react-mathjax/MathJax'
 import React, { useRef } from 'react'
 import { trpc } from 'utils/trpc'
 
@@ -43,13 +44,12 @@ const PracticeProblem: React.FC<{
         typeof trpc.getProblemsBySubject.useInfiniteQuery
     >['fetchNextPage']
 }> = ({ problem: { title, content }, fetchNextPage }) => {
-    
     const buttonRef = useRef<HTMLButtonElement>(null)
-    
+
     return (
         <>
             <h2 className="font-bold">{title}</h2>
-            <p>{content}</p>
+            <MathJax>{content}</MathJax>
             <label htmlFor="answer" className="mt-4 font-bold">
                 Answer
             </label>
@@ -68,7 +68,7 @@ const PracticeProblem: React.FC<{
                     onClick={(e) => {
                         e.preventDefault()
                         fetchNextPage()
-                        buttonRef!.current!.disabled = true
+                        buttonRef.current!.disabled = true
                     }}
                 >
                     Submit

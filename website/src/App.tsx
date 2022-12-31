@@ -9,6 +9,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LandingMainComponent from 'components/landing/LandingMainComponent'
 import PracticeMainComponent from 'components/practice/PracticeMainComponent'
+import { MathJaxContext } from 'better-react-mathjax'
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
@@ -21,6 +22,21 @@ const router = createBrowserRouter([
         element: <PracticeMainComponent />,
     },
 ])
+
+const config = {
+    loader: { load: ["[tex]/html"] },
+    tex: {
+      packages: { "[+]": ["html"] },
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"]
+      ],
+      displayMath: [
+        ["$$", "$$"],
+        ["\\[", "\\]"]
+      ]
+    }
+  };
 
 function App() {
     const [trpcClient] = useState(() =>
@@ -35,11 +51,12 @@ function App() {
 
     return (
         <>
-            <trpc.Provider client={trpcClient} queryClient={queryClient}>
-                <QueryClientProvider client={queryClient}>
-                    <HeaderComponent />
-                    <RouterProvider router={router} />
-                    {/* <ReactQueryDevtools
+            <MathJaxContext version={3} config={config}>
+                <trpc.Provider client={trpcClient} queryClient={queryClient}>
+                    <QueryClientProvider client={queryClient}>
+                        <HeaderComponent />
+                        <RouterProvider router={router} />
+                        {/* <ReactQueryDevtools
                         initialIsOpen
                         position="bottom-left"
                         toggleButtonProps={{
@@ -50,9 +67,10 @@ function App() {
                             },
                         }}
                     /> */}
-                    <FooterComponent />
-                </QueryClientProvider>
-            </trpc.Provider>
+                        <FooterComponent />
+                    </QueryClientProvider>
+                </trpc.Provider>
+            </MathJaxContext>
         </>
     )
 }
