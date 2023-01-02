@@ -54,7 +54,7 @@ function App() {
             <MathJaxContext version={3} config={config}>
                 <trpc.Provider client={trpcClient} queryClient={queryClient}>
                     <QueryClientProvider client={queryClient}>
-                        {/* <HeaderComponent /> */}
+                        <HeaderComponent />
                         <RouterProvider router={router} />
                         {/* <ReactQueryDevtools
                         initialIsOpen

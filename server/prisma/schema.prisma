@@ -8,7 +8,9 @@ datasource db {
 }
 
 model Problem {
-  id      String @id @default(cuid())
-  title   String
-  content String
+  id          String @id @default(cuid())
+  title       String
+  content     String
+  answer      String
+  explanation String
 }
