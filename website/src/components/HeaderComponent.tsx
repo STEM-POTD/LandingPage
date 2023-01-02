@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 
 const HeaderComponent: React.FC = () => {
     return (
-        <header className="header-area header-sticky">
+        <header className="header-area header-sticky sticky top-0">
             <Container>
                 <Row>
                     <Col xs={12}>

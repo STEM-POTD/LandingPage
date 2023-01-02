@@ -24,19 +24,19 @@ const router = createBrowserRouter([
 ])
 
 const config = {
-    loader: { load: ["[tex]/html"] },
+    loader: { load: ['[tex]/html'] },
     tex: {
-      packages: { "[+]": ["html"] },
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"]
-      ],
-      displayMath: [
-        ["$$", "$$"],
-        ["\\[", "\\]"]
-      ]
-    }
-  };
+        packages: { '[+]': ['html'] },
+        inlineMath: [
+            ['$', '$'],
+            ['\\(', '\\)'],
+        ],
+        displayMath: [
+            ['$$', '$$'],
+            ['\\[', '\\]'],
+        ],
+    },
+}
 
 function App() {
     const [trpcClient] = useState(() =>
@@ -54,7 +54,7 @@ function App() {
             <MathJaxContext version={3} config={config}>
                 <trpc.Provider client={trpcClient} queryClient={queryClient}>
                     <QueryClientProvider client={queryClient}>
-                        <HeaderComponent />
+                        {/* <HeaderComponent /> */}
                         <RouterProvider router={router} />
                         {/* <ReactQueryDevtools
                         initialIsOpen
