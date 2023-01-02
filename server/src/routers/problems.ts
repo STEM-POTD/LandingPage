@@ -27,5 +27,10 @@ export const problemsRouter = router({
                 items,  
                 nextCursor,
             };
+        }),
+
+    getProblems: publicProcedure
+        .query(async ({ ctx }) => {
+            return await ctx.prisma.problem.findMany();
         })
 });
