@@ -9,6 +9,10 @@ const configShape = z.object({
     DATABASE_URL: z.string(),
     NODE_ENV: z.enum(['development', 'test', 'production']),
     ORIGIN: z.string(),
+    ACCESS_TOKEN_PRIVATE_KEY: z.string(),
+    ACCESS_TOKEN_PUBLIC_KEY: z.string(),
+    REFRESH_TOKEN_PRIVATE_KEY: z.string(),
+    REFRESH_TOKEN_PUBLIC_KEY: z.string(),
 });
 
 const customConfig = configShape.safeParse(process.env);

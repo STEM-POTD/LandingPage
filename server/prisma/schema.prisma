@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -13,4 +13,22 @@ model Problem {
   content     String
   answer      String
   explanation String
+  solvedBy    User[]
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String    @db.VarChar(255)
+  email     String    @unique
+  role      Role      @default(USER)
+  password  String
+  provider  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  solved    Problem[]
+}
+
+enum Role {
+  ADMIN
+  USER
 }

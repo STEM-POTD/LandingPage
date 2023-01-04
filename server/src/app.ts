@@ -5,11 +5,9 @@ import morgan from 'morgan';
 import { appRouter } from './routers/_app';
 import { env } from './utils/default';
 import { createContext } from './utils/trpc';
-
-const app = express();
-
 import { PrismaClient } from "@prisma/client";
 
+const app = express();
 declare global {
     var prisma: PrismaClient;
 }
