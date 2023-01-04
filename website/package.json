@@ -7,8 +7,6 @@
         "start": "vite --port 3000",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "format": "prettier --check --ignore-path .gitignore .",
-        "format:fix": "prettier --write --ignore-path .gitignore .",
         "update": "yarn upgrade server"
     },
     "dependencies": {

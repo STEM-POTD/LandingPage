@@ -1,16 +1,18 @@
-import { inferAsyncReturnType, initTRPC } from "@trpc/server";
-import { CreateExpressContextOptions } from "@trpc/server/adapters/express";
-import jwt from "jsonwebtoken";
+import { inferAsyncReturnType, initTRPC } from '@trpc/server'
+import { CreateExpressContextOptions } from '@trpc/server/adapters/express'
+import jwt from 'jsonwebtoken'
 
-export const createContext = ({
+export const createContext = ({ req, res }: CreateExpressContextOptions) => ({
     req,
     res,
-}: CreateExpressContextOptions) => ({req, res, prisma, jwt})
+    prisma,
+    jwt,
+})
 
-export type Context = inferAsyncReturnType<typeof createContext>;
+export type Context = inferAsyncReturnType<typeof createContext>
 
 const t = initTRPC.context<Context>().create()
 
-export const router = t.router;
-export const publicProcedure = t.procedure;
-export const mergeRouters = t.mergeRouters;
+export const router = t.router
+export const publicProcedure = t.procedure
+export const mergeRouters = t.mergeRouters

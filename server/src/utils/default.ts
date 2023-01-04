@@ -1,8 +1,8 @@
-import path from "path";
-import { config } from "dotenv";
-import { z } from "zod";
+import path from 'path'
+import { config } from 'dotenv'
+import { z } from 'zod'
 
-config({ path: path.resolve(__dirname, "../../.env") });
+config({ path: path.resolve(__dirname, '../../.env') })
 
 const configShape = z.object({
     PORT: z.string(),
@@ -13,16 +13,16 @@ const configShape = z.object({
     ACCESS_TOKEN_PUBLIC_KEY: z.string(),
     REFRESH_TOKEN_PRIVATE_KEY: z.string(),
     REFRESH_TOKEN_PUBLIC_KEY: z.string(),
-});
+})
 
-const customConfig = configShape.safeParse(process.env);
+const customConfig = configShape.safeParse(process.env)
 
 if (!customConfig.success) {
     console.error(
-      '❌ Invalid environment variables:',
-      JSON.stringify(customConfig.error.format(), null, 4),
-    );
-    process.exit(1);
-  }
+        '❌ Invalid environment variables:',
+        JSON.stringify(customConfig.error.format(), null, 4)
+    )
+    process.exit(1)
+}
 
-export const env = customConfig.data;
+export const env = customConfig.data

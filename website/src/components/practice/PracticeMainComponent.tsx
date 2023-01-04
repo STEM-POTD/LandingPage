@@ -75,9 +75,16 @@ const PracticeProblem: React.FC<{
         console.log('correct')
         setAnsweredState(answerState.CORRECT)
         onCorrect()
-        answerRef.current.value = ''
+        answerRef.current.disabled = true
     }
 
+    useEffect(() => {
+        if (answerRef.current) {
+            answerRef.current.focus()
+        }
+    }, [])
+
+    const thing = `https://scontent-iad3-2.cdninstagram.com/v/t51.29350-15/318631157_834847060943455_5860747155773852822_n.jpg?stp=dst-jpg_s640x640&_nc_cat=111&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=xcQPwY5nb7gAX9VNqep&_nc_ht=scontent-iad3-2.cdninstagram.com&oh=00_AfDZak2diPkU3dLGulOOEt7GeaVkyTw2pJYozULzylZApg&oe=63B96AD5`
     return (
         <>
             <div

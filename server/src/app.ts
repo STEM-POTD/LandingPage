@@ -1,51 +1,53 @@
-import { createExpressMiddleware } from '@trpc/server/adapters/express';
-import cors from 'cors';
-import express from 'express';
-import morgan from 'morgan';
-import { appRouter } from './routers/_app';
-import { env } from './utils/default';
-import { createContext } from './utils/trpc';
-import { PrismaClient } from "@prisma/client";
+import { createExpressMiddleware } from '@trpc/server/adapters/express'
+import cors from 'cors'
+import express from 'express'
+import morgan from 'morgan'
+import { appRouter } from './routers/_app'
+import { env } from './utils/default'
+import { createContext } from './utils/trpc'
+import { PrismaClient } from '@prisma/client'
 
-const app = express();
+const app = express()
 declare global {
-    var prisma: PrismaClient;
+    var prisma: PrismaClient
 }
 
 export const prisma =
-  global.prisma ||
-  new PrismaClient({
-    log:
-      env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  });
+    global.prisma ||
+    new PrismaClient({
+        log:
+            env.NODE_ENV === 'development'
+                ? ['query', 'error', 'warn']
+                : ['error'],
+    })
 
 if (env.NODE_ENV !== 'production') {
-  global.prisma = prisma;
+    global.prisma = prisma
 }
 
-if (env.NODE_ENV !== 'production') app.use(morgan('dev'));
+if (env.NODE_ENV !== 'production') app.use(morgan('dev'))
 
 app.use(
     cors({
-        origin: [env.ORIGIN, "http://localhost:3000"],
+        origin: [env.ORIGIN, 'http://localhost:3000'],
         credentials: true,
     })
-);
-    
-export type AppRouter = typeof appRouter;
+)
+
+export type AppRouter = typeof appRouter
 
 app.use(
-    "/api/trpc",
+    '/api/trpc',
     createExpressMiddleware({
         router: appRouter,
         createContext,
     })
-);
+)
 
-const port = env.PORT || 5000;
+const port = env.PORT || 5000
 
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-});
+    console.log(`Server listening on port ${port}`)
+})
 
-module.exports = app;
+module.exports = app
