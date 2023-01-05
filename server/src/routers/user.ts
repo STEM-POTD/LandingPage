@@ -77,13 +77,13 @@ export const userRouter = router({
                 accessToken,
                 accessTokenCookieOptions
             )
-            
+
             ctx.res.cookie(
                 'refresh_token',
                 refreshToken,
                 refreshTokenCookieOptions
             )
-            
+
             ctx.res.cookie('logged_in', true, {
                 ...accessTokenCookieOptions,
                 httpOnly: false,
@@ -101,4 +101,15 @@ export const userRouter = router({
                 status: 'success',
             }
         }),
+    
+    getUserByScore: publicProcedure
+        .query(async ({ ctx }) => {
+            const users = await ctx.prisma.user.findMany({
+                orderBy: {
+                    score: 'desc',
+                },
+            })
+
+            return users
+        })
 })
