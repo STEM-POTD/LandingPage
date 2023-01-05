@@ -1,12 +1,10 @@
 import { inferAsyncReturnType, initTRPC } from '@trpc/server'
 import { CreateExpressContextOptions } from '@trpc/server/adapters/express'
-import jwt from 'jsonwebtoken'
 
 export const createContext = ({ req, res }: CreateExpressContextOptions) => ({
     req,
     res,
     prisma,
-    jwt,
 })
 
 export type Context = inferAsyncReturnType<typeof createContext>

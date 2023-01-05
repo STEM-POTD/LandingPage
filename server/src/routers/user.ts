@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { compare, hash } from 'bcryptjs'
 import { signJwt } from '../utils/jwt'
 import { CookieOptions } from 'express'
+import { TRPCError } from '@trpc/server'
 
 const cookieOptions: CookieOptions = {
     httpOnly: true,
@@ -19,6 +20,7 @@ const refreshTokenCookieOptions: CookieOptions = {
     ...cookieOptions,
     expires: new Date(Date.now() + 15 * 60 * 1000),
 }
+
 export const userRouter = router({
     createUser: publicProcedure
         .input(
@@ -59,10 +61,10 @@ export const userRouter = router({
             })
 
             if (!user) {
-                return {
-                    status: 'error',
+                throw new TRPCError({
+                    code: 'BAD_REQUEST',
                     message: 'User not found',
-                }
+                })
             }
 
             const passwordMatch = await compare(password, user.password)
@@ -75,21 +77,23 @@ export const userRouter = router({
                 accessToken,
                 accessTokenCookieOptions
             )
+            
             ctx.res.cookie(
                 'refresh_token',
                 refreshToken,
                 refreshTokenCookieOptions
             )
+            
             ctx.res.cookie('logged_in', true, {
                 ...accessTokenCookieOptions,
                 httpOnly: false,
             })
 
             if (!passwordMatch) {
-                return {
-                    status: 'error',
+                throw new TRPCError({
+                    code: 'BAD_REQUEST',
                     message: 'Incorrect password',
-                }
+                })
             }
 
             return {
