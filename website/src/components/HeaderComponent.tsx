@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Cookies from 'universal-cookie'
+import { Link } from 'react-router-dom'
+
+const cookies = new Cookies()
 
 const HeaderComponent: React.FC = () => {
+    const [loggedIn, setLoggedIn] = useState(
+        document.cookie.match('/^(.*;)?s*logged_ins*=s*[^;]+(.*)?$/')?.pop() ===
+            'true'
+    )
+
     return (
         <header className="header-area header-sticky sticky top-0">
             <Container>
@@ -44,10 +53,19 @@ const HeaderComponent: React.FC = () => {
                                 <li className="scroll-to-section">
                                     <a
                                         id={'login'}
-                                        href="/signin"
+                                        href="/login"
                                         className={`menu-item`}
                                     >
                                         Sign In
+                                    </a>
+                                </li>
+                                <li className="scroll-to-section">
+                                    <a
+                                        id={'register'}
+                                        href="/register"
+                                        className={`menu-item`}
+                                    >
+                                        Register User
                                     </a>
                                 </li>
                                 <li>

@@ -53,7 +53,7 @@ export const userRouter = router({
                 password: z.string(),
             })
         )
-        .query(async ({ ctx, input: { email, password } }) => {
+        .mutation(async ({ ctx, input: { email, password } }) => {
             const user = await ctx.prisma.user.findUnique({
                 where: {
                     email,
@@ -101,15 +101,14 @@ export const userRouter = router({
                 status: 'success',
             }
         }),
-    
-    getUserByScore: publicProcedure
-        .query(async ({ ctx }) => {
-            const users = await ctx.prisma.user.findMany({
-                orderBy: {
-                    score: 'desc',
-                },
-            })
 
-            return users
+    getUsersByScore: publicProcedure.query(async ({ ctx }) => {
+        const users = await ctx.prisma.user.findMany({
+            orderBy: {
+                score: 'desc',
+            },
         })
+
+        return users
+    }),
 })

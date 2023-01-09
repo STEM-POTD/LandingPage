@@ -10,6 +10,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LandingMainComponent from 'components/landing/LandingMainComponent'
 import PracticeMainComponent from 'components/practice/PracticeMainComponent'
 import { MathJaxContext } from 'better-react-mathjax'
+import LeaderboardMainComponent from 'components/leaderboard/LeaderboardMainComponent'
+import RegisterMainComponent from 'components/login/RegisterMainComponent'
+import LoginMainComponent from 'components/login/LoginMainComponent'
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
@@ -20,6 +23,18 @@ const router = createBrowserRouter([
     {
         path: '/practice',
         element: <PracticeMainComponent />,
+    },
+    {
+        path: '/leaderboard',
+        element: <LeaderboardMainComponent />,
+    },
+    {
+        path: '/login',
+        element: <LoginMainComponent />,
+    },
+    {
+        path: '/register',
+        element: <RegisterMainComponent />,
     },
 ])
 
