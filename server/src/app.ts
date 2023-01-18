@@ -6,8 +6,10 @@ import { appRouter } from './routers/_app'
 import { env } from './utils/default'
 import { createContext } from './utils/trpc'
 import { PrismaClient } from '@prisma/client'
+import cookieParser from 'cookie-parser'
 
 const app = express()
+app.use(cookieParser())
 declare global {
     var prisma: PrismaClient
 }
@@ -29,7 +31,7 @@ if (env.NODE_ENV !== 'production') app.use(morgan('dev'))
 
 app.use(
     cors({
-        origin: [env.ORIGIN, 'http://localhost:3000'],
+        origin: [env.ORIGIN, 'http://127.0.0.1:3000'],
         credentials: true,
     })
 )

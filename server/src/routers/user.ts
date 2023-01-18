@@ -54,7 +54,7 @@ export const userRouter = router({
             })
         )
         .mutation(async ({ ctx, input: { email, password } }) => {
-            const user = await ctx.prisma.user.findUnique({
+            const user = await ctx.prisma.user.findUniqueOrThrow({
                 where: {
                     email,
                 },
@@ -88,16 +88,17 @@ export const userRouter = router({
                 ...accessTokenCookieOptions,
                 httpOnly: false,
             })
-
+            
             if (!passwordMatch) {
                 throw new TRPCError({
                     code: 'BAD_REQUEST',
                     message: 'Incorrect password',
                 })
             }
-
+                
             return {
                 user,
+                accessToken,
                 status: 'success',
             }
         }),

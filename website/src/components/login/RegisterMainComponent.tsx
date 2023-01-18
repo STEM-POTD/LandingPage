@@ -12,9 +12,11 @@ const RegisterMainComponent = () => {
         <main className="mt-20 flex h-screen items-center justify-center">
             <div className="h-1/2 w-1/2 rounded-xl bg-green-600">
                 <div className="flex h-full flex-col items-center justify-between">
-                    <div className="text-3xl font-bold my-8">Register New User</div>
+                    <div className="my-8 text-3xl font-bold">
+                        Register New User
+                    </div>
                     <form
-                    className='mb-8'
+                        className="mb-8"
                         onSubmit={(e) => {
                             e.preventDefault()
                             if (
@@ -30,7 +32,8 @@ const RegisterMainComponent = () => {
                                     password: passwordRef.current.value,
                                 })
                             } catch (error) {
-                                console.log(error)
+                                console.log({ error })
+                                console.log('cookie: ', document.cookie)
                             }
                         }}
                     >
@@ -40,7 +43,7 @@ const RegisterMainComponent = () => {
                             </label>
                             <input
                                 ref={usernameRef}
-                                className = "text-center rounded-md"
+                                className="rounded-md text-center"
                                 type="text"
                                 id="username"
                                 name="username"
@@ -53,7 +56,7 @@ const RegisterMainComponent = () => {
                             </label>
                             <input
                                 ref={emailRef}
-                                className = "text-center rounded-md"
+                                className="rounded-md text-center text-sm"
                                 type="text"
                                 id="email"
                                 name="email"
@@ -66,7 +69,7 @@ const RegisterMainComponent = () => {
                             </label>
                             <input
                                 ref={passwordRef}
-                                className = "text-center rounded-md"
+                                className="rounded-md text-center text-sm"
                                 type="password"
                                 id="password"
                                 name="password"
@@ -74,7 +77,12 @@ const RegisterMainComponent = () => {
                             />
                         </div>
                         <div className="flex justify-center">
-                            <button type="submit" className=' my-2 p-2 px-4 bg-green-800 rounded-full'>Register</button>
+                            <button
+                                type="submit"
+                                className=" my-2 rounded-full bg-green-800 p-2 px-4"
+                            >
+                                Register
+                            </button>
                         </div>
                     </form>
                 </div>

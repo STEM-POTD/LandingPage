@@ -3,7 +3,7 @@ import HeaderComponent from './components/HeaderComponent'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import FooterComponent from 'components/FooterComponent'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { trpc } from 'utils/trpc'
+import { token, trpc } from 'utils/trpc'
 import { httpBatchLink } from '@trpc/client'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -13,12 +13,13 @@ import { MathJaxContext } from 'better-react-mathjax'
 import LeaderboardMainComponent from 'components/leaderboard/LeaderboardMainComponent'
 import RegisterMainComponent from 'components/login/RegisterMainComponent'
 import LoginMainComponent from 'components/login/LoginMainComponent'
+
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <LandingMainComponent />,
+        element: <LoginMainComponent />,
     },
     {
         path: '/practice',
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/login',
-        element: <LoginMainComponent />,
+        element: <LandingMainComponent />,
     },
     {
         path: '/register',
@@ -56,11 +57,22 @@ const config = {
 function App() {
     const [trpcClient] = useState(() =>
         trpc.createClient({
-            links: [
-                httpBatchLink({
-                    url: 'http://localhost:8080/api/trpc',
-                }),
-            ],
+                links: [
+                    httpBatchLink({
+                        url: 'http://localhost:8080/api/trpc',
+                        fetch(url, options) {
+                            return fetch(url, {
+                                ...options,
+                                credentials: 'include',
+                            })
+                        },
+                        headers() {
+                            return {
+                                Authorization: token,
+                            }
+                        },
+                    }),
+                ],
         })
     )
 
@@ -71,17 +83,17 @@ function App() {
                     <QueryClientProvider client={queryClient}>
                         <HeaderComponent />
                         <RouterProvider router={router} />
-                        {/* <ReactQueryDevtools
-                        initialIsOpen
-                        position="bottom-left"
-                        toggleButtonProps={{
-                            style: {
-                                marginLeft: '5.5rem',
-                                transform: `scale(.7)`,
-                                transformOrigin: 'bottom left',
-                            },
-                        }}
-                    /> */}
+                        <ReactQueryDevtools
+                            initialIsOpen
+                            position="bottom-left"
+                            toggleButtonProps={{
+                                style: {
+                                    marginLeft: '5.5rem',
+                                    transform: `scale(.7)`,
+                                    transformOrigin: 'bottom left',
+                                },
+                            }}
+                        />
                         <FooterComponent />
                     </QueryClientProvider>
                 </trpc.Provider>
