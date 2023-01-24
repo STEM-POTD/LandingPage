@@ -1,17 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Cookies from 'universal-cookie'
-import { Link } from 'react-router-dom'
+import { useUserLogin } from 'utils/UserContext'
+import userValidator from 'utils/UserValidator'
 
 const cookies = new Cookies()
 
 const HeaderComponent: React.FC = () => {
-    const [loggedIn, setLoggedIn] = useState(
-        document.cookie.match('/^(.*;)?s*logged_ins*=s*[^;]+(.*)?$/')?.pop() ===
-            'true'
-    )
+    const [user, setUser] = useUserLogin()
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+    const signOutUser = async () => {
+        setUser(null)
+        setIsLoggedIn(false)
+        localStorage.setItem('token', '')
+        localStorage.setItem('user', '')
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem('user')) {
+            const localUser = userValidator.safeParse(
+                JSON.parse(localStorage.getItem('user')!)
+            )
+
+            if (!localUser.success) {
+                localStorage.removeItem('user')
+                throw new Error('User data is invalid')
+            } else {
+                setUser(localUser.data)
+                setIsLoggedIn(true)
+                return
+            }
+        }
+        setIsLoggedIn(false)
+    }, [user])
 
     return (
         <header className="header-area header-sticky sticky top-0">
@@ -50,31 +74,58 @@ const HeaderComponent: React.FC = () => {
                                         Team
                                     </a>
                                 </li>
-                                <li className="scroll-to-section">
-                                    <a
-                                        id={'login'}
-                                        href="/login"
-                                        className={`menu-item`}
-                                    >
-                                        Sign In
-                                    </a>
-                                </li>
-                                <li className="scroll-to-section">
-                                    <a
-                                        id={'register'}
-                                        href="/register"
-                                        className={`menu-item`}
-                                    >
-                                        Register User
-                                    </a>
-                                </li>
+                                {!isLoggedIn && (
+                                    <>
+                                        <li className="scroll-to-section">
+                                            <a
+                                                id={'login'}
+                                                href="/login"
+                                                className={`menu-item`}
+                                            >
+                                                Sign In
+                                            </a>
+                                        </li>
+                                        <li className="scroll-to-section">
+                                            <a
+                                                id={'register'}
+                                                href="/register"
+                                                className={`menu-item`}
+                                            >
+                                                Register User
+                                            </a>
+                                        </li>
+                                    </>
+                                )}
+                                {isLoggedIn && (
+                                    <>
+                                        <li>
+                                            <a
+                                                id={'practice'}
+                                                href="/practice"
+                                                className={`menu-item`}
+                                            >
+                                                Start Practicing
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a
+                                                id={'signOut'}
+                                                href="/"
+                                                onClick={signOutUser}
+                                                className={`menu-item`}
+                                            >
+                                                Sign Out
+                                            </a>
+                                        </li>
+                                    </>
+                                )}
                                 <li>
                                     <a
-                                        id={'practice'}
-                                        href="/practice"
+                                        id={'leaderboard'}
+                                        href="/leaderboard"
                                         className={`menu-item`}
                                     >
-                                        Start Practicing
+                                        Leaderboard
                                     </a>
                                 </li>
                             </ul>

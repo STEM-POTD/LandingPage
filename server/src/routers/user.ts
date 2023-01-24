@@ -70,32 +70,14 @@ export const userRouter = router({
             const passwordMatch = await compare(password, user.password)
 
             const accessToken = signJwt(user, 'accessTokenPrivateKey')
-            const refreshToken = signJwt(user, 'refreshTokenPrivateKey')
 
-            ctx.res.cookie(
-                'access_token',
-                accessToken,
-                accessTokenCookieOptions
-            )
-
-            ctx.res.cookie(
-                'refresh_token',
-                refreshToken,
-                refreshTokenCookieOptions
-            )
-
-            ctx.res.cookie('logged_in', true, {
-                ...accessTokenCookieOptions,
-                httpOnly: false,
-            })
-            
             if (!passwordMatch) {
                 throw new TRPCError({
                     code: 'BAD_REQUEST',
                     message: 'Incorrect password',
                 })
             }
-                
+
             return {
                 user,
                 accessToken,
