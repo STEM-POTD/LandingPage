@@ -14,6 +14,7 @@ model Problem {
   content     String
   answer      String
   explanation String
+  score       Int    @default(0)
   solvedBy    User[]
 }
 

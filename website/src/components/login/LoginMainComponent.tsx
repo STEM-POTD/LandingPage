@@ -10,7 +10,7 @@ const LoginMainComponent = () => {
     const passwordRef = useRef<HTMLInputElement>(null)
     const emailRef = useRef<HTMLInputElement>(null)
 
-    const [_, setUser] = useUserLogin()
+    const [globalUser, setUser] = useUserLogin()
     const navigate = useNavigate()
 
     console.log('cookie: ', document.cookie)
@@ -52,11 +52,11 @@ const LoginMainComponent = () => {
         })
 
         if (signIn.isError) console.log('error: ', res)
-        
+
         const user = userValidator.parse(res.user)
 
         localStorage.setItem('user', JSON.stringify(res.user))
-
+        
         setUser(user)
 
         navigate('/')

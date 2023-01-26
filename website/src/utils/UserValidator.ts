@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 const userValidator = z.object({
     id: z.string().cuid(),
@@ -12,4 +12,4 @@ const userValidator = z.object({
     score: z.number(),
 })
 
-export default userValidator;
+export default userValidator

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import HeaderComponent from './components/HeaderComponent'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import FooterComponent from 'components/FooterComponent'

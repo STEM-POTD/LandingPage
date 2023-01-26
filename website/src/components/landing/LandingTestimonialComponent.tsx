@@ -33,7 +33,7 @@ const LandingTestimonialComponent: React.FC = () => {
 }
 
 const Testimonial: React.FC<{
-    testimonial: typeof testimonials[number]
+    testimonial: (typeof testimonials)[number]
 }> = ({ testimonial }) => {
     return (
         <div className="item service-item">

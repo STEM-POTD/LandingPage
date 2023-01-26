@@ -94,4 +94,40 @@ export const userRouter = router({
 
         return users
     }),
+
+    solveProblem: publicProcedure
+        .input(
+            z.object({
+                problemId: z.string(),
+                userId: z.string(),
+            })
+        )
+        .mutation(async ({ ctx, input: { problemId, userId } }) => {
+            const problem = await ctx.prisma.problem.findUniqueOrThrow({
+                where: {
+                    id: problemId,
+                },
+            })
+
+            const updatedUser = await ctx.prisma.user.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    solved: {
+                        connect: {
+                            id: problemId,
+                        },
+                    },
+                    score: {
+                        increment: problem.score,
+                    },
+                },
+            })
+
+            return {
+                user: updatedUser,
+                status: 'success',
+            }
+        }),
 })

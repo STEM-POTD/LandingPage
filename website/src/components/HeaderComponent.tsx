@@ -19,23 +19,15 @@ const HeaderComponent: React.FC = () => {
         localStorage.setItem('user', '')
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('user')) {
-            const localUser = userValidator.safeParse(
-                JSON.parse(localStorage.getItem('user')!)
-            )
 
-            if (!localUser.success) {
-                localStorage.removeItem('user')
-                throw new Error('User data is invalid')
-            } else {
-                setUser(localUser.data)
-                setIsLoggedIn(true)
-                return
-            }
+    // Set Logged In State
+    useEffect(() => {
+        if (user) {
+            setIsLoggedIn(true)
         }
-        setIsLoggedIn(false)
     }, [user])
+
+    
 
     return (
         <header className="header-area header-sticky sticky top-0">

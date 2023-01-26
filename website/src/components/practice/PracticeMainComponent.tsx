@@ -2,9 +2,19 @@ import { Problem } from '.prisma/client'
 import MathJax from 'better-react-mathjax/MathJax'
 import React, { useEffect, useRef, useState } from 'react'
 import { trpc } from 'utils/trpc'
+import { useUserLogin } from 'utils/UserContext'
 
 const PracticeMainComponent = () => {
-    const { data: problems, isLoading } = trpc.getProblems.useQuery()
+    const [user, _] = useUserLogin()
+
+    console.log(user?.id)
+
+    const { data: problems, isLoading } = trpc.getProblems.useQuery({
+        userId: user?.id,
+    })
+
+    console.log(problems)
+    const solveProblem = trpc.solveProblem.useMutation()
 
     const [randomOrderedProblems, setRandomOrderedProblems] = useState(
         problems ?? []
@@ -34,9 +44,13 @@ const PracticeMainComponent = () => {
                         <div className="m-4 w-fit rounded-3xl">
                             <PracticeProblem
                                 problem={problem}
-                                onCorrect={() =>
+                                onCorrect={() => {
                                     setVisibleIndex((prev) => prev + 1)
-                                }
+                                    solveProblem.mutate({
+                                        problemId: problem.id,
+                                        userId: user!.id,
+                                    })
+                                }}
                             />
                         </div>
                     </div>
@@ -58,7 +72,7 @@ const PracticeProblem: React.FC<{
         UNANSWERED: 'bg-gradient-to-br from-indigo-500 to-red-400',
     } as const
 
-    type AnswerState = typeof answerState[keyof typeof answerState]
+    type AnswerState = (typeof answerState)[keyof typeof answerState]
 
     const [answeredState, setAnsweredState] = useState<AnswerState>(
         answerState.UNANSWERED
@@ -84,7 +98,6 @@ const PracticeProblem: React.FC<{
         }
     }, [])
 
-    const thing = `https://scontent-iad3-2.cdninstagram.com/v/t51.29350-15/318631157_834847060943455_5860747155773852822_n.jpg?stp=dst-jpg_s640x640&_nc_cat=111&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=xcQPwY5nb7gAX9VNqep&_nc_ht=scontent-iad3-2.cdninstagram.com&oh=00_AfDZak2diPkU3dLGulOOEt7GeaVkyTw2pJYozULzylZApg&oe=63B96AD5`
     return (
         <>
             <div
