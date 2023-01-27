@@ -4,6 +4,7 @@ import { compare, hash } from 'bcryptjs'
 import { signJwt } from '../utils/jwt'
 import { CookieOptions } from 'express'
 import { TRPCError } from '@trpc/server'
+import { User } from '@prisma/client'
 
 const cookieOptions: CookieOptions = {
     httpOnly: true,
@@ -32,17 +33,24 @@ export const userRouter = router({
         )
         .mutation(async ({ ctx, input: { name, email, password } }) => {
             const hashedPassword = await hash(password, 12)
-            const user = await ctx.prisma.user.create({
-                data: {
-                    name,
-                    email,
-                    password: hashedPassword,
-                },
-            })
+            try {
+                const user = await ctx.prisma.user.create({
+                    data: {
+                        name,
+                        email,
+                        password: hashedPassword,
+                    },
+                })
 
-            return {
-                user,
-                status: 'success',
+                return {
+                    user,
+                    status: 'success',
+                }
+            } catch (error) {
+                throw new TRPCError({
+                    code: 'BAD_REQUEST',
+                    message: 'Email already exists',
+                })
             }
         }),
 
@@ -53,37 +61,62 @@ export const userRouter = router({
                 password: z.string(),
             })
         )
-        .mutation(async ({ ctx, input: { email, password } }) => {
-            const user = await ctx.prisma.user.findUniqueOrThrow({
-                where: {
-                    email,
-                },
-            })
-
-            if (!user) {
-                throw new TRPCError({
-                    code: 'BAD_REQUEST',
-                    message: 'User not found',
+        .mutation(
+            async ({
+                ctx,
+                input: { email, password },
+            }): Promise<
+                | {
+                      status: 'success'
+                      data: {
+                          user: User
+                          accessToken: string
+                      }
+                  }
+                | {
+                      status: 'error'
+                      error: TRPCError
+                  }
+            > => {
+                const user = await ctx.prisma.user.findUnique({
+                    where: {
+                        email,
+                    },
                 })
+
+                if (!user) {
+                    return {
+                        status: 'error',
+                        error: new TRPCError({
+                                code: 'BAD_REQUEST',
+                                message: 'User not found',
+                            }),
+                    }
+                }
+
+                const passwordMatch = await compare(password, user.password)
+
+                const accessToken = signJwt(user, 'accessTokenPrivateKey')
+
+                if (!passwordMatch) {
+                    return {
+                        status: 'error',
+                        error: new TRPCError({
+                            code: 'BAD_REQUEST',
+                            message: 'Incorrect password',
+                        }),
+                    }
+                }
+
+                return {
+                    status: 'success',
+                    data: {
+                        user,
+                        accessToken,
+                    },
+                }
             }
-
-            const passwordMatch = await compare(password, user.password)
-
-            const accessToken = signJwt(user, 'accessTokenPrivateKey')
-
-            if (!passwordMatch) {
-                throw new TRPCError({
-                    code: 'BAD_REQUEST',
-                    message: 'Incorrect password',
-                })
-            }
-
-            return {
-                user,
-                accessToken,
-                status: 'success',
-            }
-        }),
+        ),
 
     getUsersByScore: publicProcedure.query(async ({ ctx }) => {
         const users = await ctx.prisma.user.findMany({

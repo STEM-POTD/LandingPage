@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { trpc } from 'utils/trpc'
+import { z } from 'zod'
 
 const RegisterMainComponent = () => {
     const usernameRef = useRef<HTMLInputElement>(null)
@@ -10,31 +11,62 @@ const RegisterMainComponent = () => {
 
     return (
         <main className="mt-20 flex h-screen items-center justify-center">
-            <div className="h-1/2 w-1/2 rounded-xl bg-green-600">
-                <div className="flex h-full flex-col items-center justify-between">
+            <div className="h-fit w-fit rounded-xl bg-green-600">
+                <div className="mx-24 flex flex-col items-center justify-between">
                     <div className="my-8 text-3xl font-bold">
                         Register New User
                     </div>
                     <form
                         className="mb-8"
-                        onSubmit={(e) => {
+                        onSubmit={async (e) => {
                             e.preventDefault()
-                            if (
-                                !usernameRef.current ||
-                                !passwordRef.current ||
-                                !emailRef.current
-                            )
+
+                            const registerValidator = z.object({
+                                name: z.string(),
+                                email: z.string().email({
+                                    message: 'Invalid email address',
+                                }),
+                                password: z
+                                    .string()
+                                    .min(8, {
+                                        message:
+                                            'Must be 8 or more characters long',
+                                    })
+                                    .max(255, {
+                                        message:
+                                            'Must be 255 or fewer characters long',
+                                    }),
+                            })
+
+                            const register = registerValidator.safeParse({
+                                name: usernameRef.current?.value,
+                                email: emailRef.current?.value,
+                                password: passwordRef.current?.value,
+                            })
+
+                            if (!register.success) {
+                                console.log('error: ', register.error)
+                                alert(register.error.issues[0].message)
+                                usernameRef.current!.value = ''
+                                emailRef.current!.value = ''
+                                passwordRef.current!.value = ''
                                 return
-                            try {
-                                registerUser.mutateAsync({
-                                    name: usernameRef.current.value,
-                                    email: emailRef.current.value,
-                                    password: passwordRef.current.value,
-                                })
-                            } catch (error) {
-                                console.log({ error })
-                                console.log('cookie: ', document.cookie)
                             }
+
+                            const { name, email, password } = register.data
+
+                            const newUser = await registerUser.mutateAsync({
+                                name,
+                                email,
+                                password,
+                            })
+
+                            if (registerUser.isError) {
+                                console.log('error: ', newUser)
+                                alert(registerUser.error.message)
+                            }
+
+                            console.log('newUser: ', newUser)
                         }}
                     >
                         <div className="flex flex-row items-center justify-between">

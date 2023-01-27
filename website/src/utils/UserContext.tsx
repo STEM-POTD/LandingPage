@@ -13,14 +13,13 @@ export const useUserLogin = () => {
 export const UserProvider: React.FC<{ children: JSX.Element }> = ({
     children,
 }) => {
-    
     const [user, setUser] = useState<User | null>(null)
-    
-    if(localStorage.getItem('user') !== null && user === null) {
+
+    if (localStorage.getItem('user') && user === null) {
         const localUser = userValidator.safeParse(
             JSON.parse(localStorage.getItem('user')!)
         )
-        
+
         console.log('UserProvider: ', localUser)
 
         if (localUser.success) {

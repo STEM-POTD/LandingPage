@@ -19,15 +19,12 @@ const HeaderComponent: React.FC = () => {
         localStorage.setItem('user', '')
     }
 
-
     // Set Logged In State
     useEffect(() => {
         if (user) {
             setIsLoggedIn(true)
         }
     }, [user])
-
-    
 
     return (
         <header className="header-area header-sticky sticky top-0">

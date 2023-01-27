@@ -15,7 +15,13 @@ const LoginMainComponent = () => {
 
     console.log('cookie: ', document.cookie)
     const signIn = trpc.signInUser.useMutation({
-        onSuccess({ accessToken }) {
+        onSuccess(data) {
+            if(data.status === 'error') {
+                console.log('error: ', data)
+                alert(data.error.message)
+                return
+            }
+            const { data: { user, accessToken } } = data
             document.cookie = `token=${accessToken}`
         },
     })
@@ -39,6 +45,7 @@ const LoginMainComponent = () => {
 
         if (!login.success) {
             console.log('error: ', login.error)
+            alert(login.error.issues[0].message)
             emailRef!.current!.value = ''
             passwordRef!.current!.value = ''
             return
@@ -51,12 +58,16 @@ const LoginMainComponent = () => {
             password,
         })
 
-        if (signIn.isError) console.log('error: ', res)
+        if (res.status === 'error') {
+            console.log('error: ', res)
+            alert(res.error.message)
+            return
+        }
 
-        const user = userValidator.parse(res.user)
+        const user = userValidator.parse(res.data.user)
 
-        localStorage.setItem('user', JSON.stringify(res.user))
-        
+        localStorage.setItem('user', JSON.stringify(user))
+
         setUser(user)
 
         navigate('/')
@@ -65,8 +76,8 @@ const LoginMainComponent = () => {
 
     return (
         <main className="mt-20 flex h-screen items-center justify-center">
-            <div className="h-1/2 w-1/2 rounded-xl bg-green-600">
-                <div className="flex h-full flex-col items-center justify-between">
+            <div className="h-fit w-fit rounded-xl bg-green-600">
+                <div className="mx-24 flex flex-col items-center justify-between">
                     <div className="my-8 text-3xl font-bold">Login</div>
                     <form className="mb-8" onSubmit={signInUser}>
                         <div className="flex flex-row items-center justify-between">

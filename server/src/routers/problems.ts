@@ -30,34 +30,32 @@ export const problemsRouter = router({
         }),
 
     getProblems: publicProcedure
-    .input(
-        z.object({
-            userId: z.string().cuid().optional(),
-        })
-    )
-    .query(async ({ ctx, input: { userId } }) => {
-        if (!userId) {
-            return await ctx.prisma.problem.findMany({
-                orderBy: { id: 'asc' },
+        .input(
+            z.object({
+                userId: z.string().cuid().optional(),
             })
-        }
-        
-        // Get all the problems that the user has not solved
-        const problems = await ctx.prisma.problem.findMany({
-            orderBy: { id: 'asc' },
-            where: {
-                NOT: {
-                    solvedBy: {
-                        some: {
-                            id: userId
-                        }
-                    }
-                }
+        )
+        .query(async ({ ctx, input: { userId } }) => {
+            if (!userId) {
+                return await ctx.prisma.problem.findMany({
+                    orderBy: { id: 'asc' },
+                })
             }
-        })
-        
-        console.log(problems)
-        
-        return problems
-    }),
+
+            // Get all the problems that the user has not solved
+            const problems = await ctx.prisma.problem.findMany({
+                orderBy: { id: 'asc' },
+                where: {
+                    NOT: {
+                        solvedBy: {
+                            some: {
+                                id: userId,
+                            },
+                        },
+                    },
+                },
+            })
+
+            return problems
+        }),
 })
