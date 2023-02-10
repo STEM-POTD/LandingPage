@@ -1,6 +1,5 @@
-import { User } from '@prisma/client'
 import React, { useRef } from 'react'
-import { redirect, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { trpc } from 'utils/trpc'
 import { useUserLogin } from 'utils/UserContext'
 import userValidator from 'utils/UserValidator'
@@ -16,12 +15,14 @@ const LoginMainComponent = () => {
     console.log('cookie: ', document.cookie)
     const signIn = trpc.signInUser.useMutation({
         onSuccess(data) {
-            if(data.status === 'error') {
+            if (data.status === 'error') {
                 console.log('error: ', data)
                 alert(data.error.message)
                 return
             }
-            const { data: { user, accessToken } } = data
+            const {
+                data: { accessToken },
+            } = data
             document.cookie = `token=${accessToken}`
         },
     })

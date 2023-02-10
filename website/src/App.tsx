@@ -14,6 +14,7 @@ import LeaderboardMainComponent from 'components/leaderboard/LeaderboardMainComp
 import RegisterMainComponent from 'components/login/RegisterMainComponent'
 import LoginMainComponent from 'components/login/LoginMainComponent'
 import { UserProvider } from 'utils/UserContext'
+import { UserHomeComponent } from 'components/user/UserHomeComponent'
 
 const queryClient = new QueryClient()
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
     {
         path: '/leaderboard',
         element: <LeaderboardMainComponent />,
+    },
+    {
+        path: '/user',
+        element: <UserHomeComponent />,
     },
 ])
 

@@ -88,9 +88,9 @@ export const userRouter = router({
                     return {
                         status: 'error',
                         error: new TRPCError({
-                                code: 'BAD_REQUEST',
-                                message: 'User not found',
-                            }),
+                            code: 'BAD_REQUEST',
+                            message: 'User not found',
+                        }),
                     }
                 }
 
@@ -160,6 +160,36 @@ export const userRouter = router({
 
             return {
                 user: updatedUser,
+                status: 'success',
+            }
+        }),
+
+    updateUser: publicProcedure
+        .input(
+            z.object({
+                id: z.string(),
+                name: z.string().optional(),
+                email: z.string().email().optional(),
+                password: z
+                    .string()
+                    .transform(async (value) => await hash(value, 12))
+                    .optional(),
+            })
+        )
+        .mutation(async ({ ctx, input: { id, name, email, password } }) => {
+            const user = await ctx.prisma.user.update({
+                where: {
+                    id,
+                },
+                data: {
+                    name,
+                    email,
+                    password,
+                },
+            })
+
+            return {
+                user,
                 status: 'success',
             }
         }),
