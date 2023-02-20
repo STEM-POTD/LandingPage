@@ -2,7 +2,7 @@ import jwt, { SignOptions } from 'jsonwebtoken'
 import { env } from './default'
 
 export const signJwt = (
-    payload: Object,
+    payload: object,
     key: 'accessTokenPrivateKey' | 'refreshTokenPrivateKey',
     options: SignOptions = {}
 ) => {
@@ -19,7 +19,7 @@ export const signJwt = (
     })
 }
 
-export const verifyJwt = <T>(
+export const decodeAndVerifyJwt = <T>(
     token: string,
     key: 'accessTokenPublicKey' | 'refreshTokenPublicKey'
 ): T | null => {
@@ -34,6 +34,7 @@ export const verifyJwt = <T>(
             algorithms: ['RS256'],
         }) as T
     } catch (error) {
+        console.log(error)
         return null
     }
 }

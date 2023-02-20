@@ -3,7 +3,7 @@ import { expect, describe, it, vi } from 'vitest'
 
 describe('user', () => {
     it('create new user', async () => {
-        const result = trpc.createUser.useMutation().mutate({
+        const result = trpc.register.useMutation().mutate({
             name: 'Test User',
             email: 'test_user@gmail.com',
             password: '123456',

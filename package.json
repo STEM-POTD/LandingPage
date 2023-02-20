@@ -16,8 +16,8 @@
         "website"
     ],
     "devDependencies": {
-        "@typescript-eslint/parser": "^5.0.1",
         "@typescript-eslint/eslint-plugin": "^5.0.1",
+        "@typescript-eslint/parser": "^5.0.1",
         "concurrently": "^7.5.0",
         "eslint": "^8.7.0",
         "prettier": "^2.5.1",
@@ -40,5 +40,8 @@
             "@typescript-eslint/no-unused-vars": "off",
             "no-unused-vars": "off"
         }
+    },
+    "dependencies": {
+        "superjson": "^1.12.2"
     }
 }

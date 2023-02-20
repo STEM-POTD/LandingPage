@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router'
 import { trpc } from 'utils/trpc'
 import { useUserLogin } from 'utils/UserContext'
@@ -6,20 +6,30 @@ import userValidator from 'utils/UserValidator'
 import { z } from 'zod'
 
 const LoginMainComponent = () => {
-    const passwordRef = useRef<HTMLInputElement>(null)
-    const emailRef = useRef<HTMLInputElement>(null)
+    return (
+        <main className="mt-20 flex h-screen items-center justify-center">
+            <div className="h-fit w-fit rounded-xl bg-green-600">
+                <div className="mx-24 flex flex-col items-center justify-between">
+                    <div className="my-8 text-3xl font-bold">Login</div>
+                    <LoginForm />
+                </div>
+            </div>
+        </main>
+    )
+}
 
-    const [globalUser, setUser] = useUserLogin()
+const LoginForm = () => {
+    const [user, setUser] = useUserLogin()
     const navigate = useNavigate()
 
-    console.log('cookie: ', document.cookie)
-    const signIn = trpc.signInUser.useMutation({
+    const signIn = trpc.login.useMutation({
         onSuccess(data) {
             if (data.status === 'error') {
                 console.log('error: ', data)
                 alert(data.error.message)
                 return
             }
+            console.log('sucess')
             const {
                 data: { accessToken },
             } = data
@@ -31,6 +41,9 @@ const LoginMainComponent = () => {
         e.preventDefault()
         console.log('submit')
 
+        const data = new FormData(e.currentTarget)
+        const dataObj = Object.fromEntries(data.entries())
+
         const loginValidator = z.object({
             email: z.string().email({ message: 'Invalid email address' }),
             password: z
@@ -40,15 +53,13 @@ const LoginMainComponent = () => {
         })
 
         const login = loginValidator.safeParse({
-            email: emailRef!.current!.value,
-            password: passwordRef!.current!.value,
+            email: dataObj.email,
+            password: dataObj.password,
         })
 
         if (!login.success) {
             console.log('error: ', login.error)
             alert(login.error.issues[0].message)
-            emailRef!.current!.value = ''
-            passwordRef!.current!.value = ''
             return
         }
 
@@ -71,56 +82,47 @@ const LoginMainComponent = () => {
 
         setUser(user)
 
-        navigate('/')
-        window.location.reload()
+        // navigate('/')
+        // window.location.reload()
     }
 
     return (
-        <main className="mt-20 flex h-screen items-center justify-center">
-            <div className="h-fit w-fit rounded-xl bg-green-600">
-                <div className="mx-24 flex flex-col items-center justify-between">
-                    <div className="my-8 text-3xl font-bold">Login</div>
-                    <form className="mb-8" onSubmit={signInUser}>
-                        <div className="flex flex-row items-center justify-between">
-                            <label className="m-2" htmlFor="email">
-                                Email
-                            </label>
-                            <input
-                                ref={emailRef}
-                                className="rounded-md text-center"
-                                type="text"
-                                id="email"
-                                name="email"
-                                required
-                            />
-                        </div>
-                        <div className="flex flex-row items-center justify-between">
-                            <label className="m-2" htmlFor="password">
-                                Password
-                            </label>
-                            <input
-                                ref={passwordRef}
-                                className="rounded-md text-center"
-                                type="password"
-                                id="password"
-                                name="password"
-                                required
-                                minLength={8}
-                                maxLength={255}
-                            />
-                        </div>
-                        <div className="flex justify-center">
-                            <button
-                                type="submit"
-                                className=" my-2 rounded-full bg-green-800 p-2 px-4"
-                            >
-                                Login
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <form className="mb-8" onSubmit={signInUser}>
+            <div className="flex flex-row items-center justify-between">
+                <label className="m-2" htmlFor="email">
+                    Email
+                </label>
+                <input
+                    className="rounded-md text-center"
+                    type="text"
+                    id="email"
+                    name="email"
+                    required
+                />
             </div>
-        </main>
+            <div className="flex flex-row items-center justify-between">
+                <label className="m-2" htmlFor="password">
+                    Password
+                </label>
+                <input
+                    className="rounded-md text-center"
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    minLength={8}
+                    maxLength={255}
+                />
+            </div>
+            <div className="flex justify-center">
+                <button
+                    type="submit"
+                    className=" my-2 rounded-full bg-green-800 p-2 px-4"
+                >
+                    Login
+                </button>
+            </div>
+        </form>
     )
 }
 

@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 export const UserHomeComponent: React.FC = () => {
     const [user] = useUserLogin()
-    const { id, name, email, password } = user!
+    const { id, name, email, password } = user
 
     const usernameRef = React.useRef<HTMLInputElement>(null)
     const passwordRef = React.useRef<HTMLInputElement>(null)
@@ -16,7 +16,7 @@ export const UserHomeComponent: React.FC = () => {
         isLoading,
         isSuccess,
         isIdle,
-    } = trpc.updateUser.useMutation()
+    } = trpc.authed.updateUser.useMutation()
 
     return (
         <div className="mt-24">
@@ -77,7 +77,6 @@ export const UserHomeComponent: React.FC = () => {
                     } = update.data
 
                     const updatedUser = updateUser({
-                        id,
                         name: updatedName ? updatedName : name,
                         email: updatedEmail ? updatedEmail : email,
                         password: updatedPassword ? updatedPassword : password,
@@ -110,6 +109,9 @@ export const UserHomeComponent: React.FC = () => {
             </form>
             {!isIdle && !isLoading && isSuccess && (
                 <div className="mt-4">Successfully updated user</div>
+            )}
+            {!isIdle && !isLoading && !isSuccess && (
+                <div className="mt-4">Failed to update user</div>
             )}
             {isLoading && <div className="mt-4">Updating user...</div>}
         </div>

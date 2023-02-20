@@ -4,7 +4,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Cookies from 'universal-cookie'
 import { useUserLogin } from 'utils/UserContext'
+import { User } from '@prisma/client'
 import userValidator from 'utils/UserValidator'
+import { trpc } from 'utils/trpc'
 
 const cookies = new Cookies()
 
@@ -13,15 +15,17 @@ const HeaderComponent: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const signOutUser = async () => {
-        setUser(null)
+        setUser({})
         setIsLoggedIn(false)
-        localStorage.setItem('token', '')
-        localStorage.setItem('user', '')
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
     }
 
     // Set Logged In State
     useEffect(() => {
-        if (user) {
+        const response = userValidator.safeParse(user)
+
+        if (response.success) {
             setIsLoggedIn(true)
         }
     }, [user])
@@ -63,7 +67,7 @@ const HeaderComponent: React.FC = () => {
                                         Team
                                     </a>
                                 </li>
-                                {!isLoggedIn && (
+                                {!isLoggedIn ? (
                                     <>
                                         <li className="scroll-to-section">
                                             <a
@@ -84,8 +88,7 @@ const HeaderComponent: React.FC = () => {
                                             </a>
                                         </li>
                                     </>
-                                )}
-                                {isLoggedIn && (
+                                ) : (
                                     <>
                                         <li>
                                             <a

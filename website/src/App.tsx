@@ -4,19 +4,34 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import FooterComponent from 'components/FooterComponent'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { token, trpc } from 'utils/trpc'
-import { httpBatchLink } from '@trpc/client'
+import { getFetch, httpBatchLink } from '@trpc/client'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import LandingMainComponent from 'components/landing/LandingMainComponent'
 import PracticeMainComponent from 'components/practice/PracticeMainComponent'
 import { MathJaxContext } from 'better-react-mathjax'
 import LeaderboardMainComponent from 'components/leaderboard/LeaderboardMainComponent'
 import RegisterMainComponent from 'components/login/RegisterMainComponent'
 import LoginMainComponent from 'components/login/LoginMainComponent'
-import { UserProvider } from 'utils/UserContext'
+import { UserProvider, useUserLogin } from 'utils/UserContext'
 import { UserHomeComponent } from 'components/user/UserHomeComponent'
+import superjson from 'superjson'
 
 const queryClient = new QueryClient()
+
+const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+    const [globalUser] = useUserLogin()
+
+    return globalUser ? (
+        children
+    ) : (
+        <Navigate
+            to={'/login'}
+            state={{ from: window.location.pathname }}
+            replace
+        />
+    )
+}
 
 const router = createBrowserRouter([
     {
@@ -25,7 +40,11 @@ const router = createBrowserRouter([
     },
     {
         path: '/practice',
-        element: <PracticeMainComponent />,
+        element: (
+            <PrivateRoute>
+                <PracticeMainComponent />
+            </PrivateRoute>
+        ),
     },
     {
         path: '/leaderboard',
@@ -45,7 +64,11 @@ const router = createBrowserRouter([
     },
     {
         path: '/user',
-        element: <UserHomeComponent />,
+        element: (
+            <PrivateRoute>
+                <UserHomeComponent />
+            </PrivateRoute>
+        ),
     },
 ])
 
@@ -67,6 +90,7 @@ const config = {
 function App() {
     const [trpcClient] = useState(() =>
         trpc.createClient({
+            transformer: superjson,
             links: [
                 httpBatchLink({
                     url: 'http://localhost:8080/api/trpc',
@@ -78,7 +102,7 @@ function App() {
                     },
                     headers() {
                         return {
-                            Authorization: token,
+                            authorization: token,
                         }
                     },
                 }),
@@ -90,8 +114,8 @@ function App() {
         <>
             <MathJaxContext version={3} config={config}>
                 <trpc.Provider client={trpcClient} queryClient={queryClient}>
-                    <UserProvider>
-                        <QueryClientProvider client={queryClient}>
+                    <QueryClientProvider client={queryClient}>
+                        <UserProvider>
                             <HeaderComponent />
                             <RouterProvider router={router} />
                             <ReactQueryDevtools
@@ -106,8 +130,8 @@ function App() {
                                 }}
                             />
                             <FooterComponent />
-                        </QueryClientProvider>
-                    </UserProvider>
+                        </UserProvider>
+                    </QueryClientProvider>
                 </trpc.Provider>
             </MathJaxContext>
         </>

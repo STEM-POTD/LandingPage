@@ -7,6 +7,7 @@ config({ path: path.resolve(__dirname, '../../.env') })
 const configShape = z.object({
     PORT: z.string(),
     DATABASE_URL: z.string(),
+    REDIS_URL: z.string(),
     NODE_ENV: z.enum(['development', 'test', 'production']),
     ORIGIN: z.string(),
     ACCESS_TOKEN_PRIVATE_KEY: z.string(),

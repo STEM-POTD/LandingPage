@@ -18,9 +18,9 @@ export const problemsRouter = router({
 
             let nextCursor: typeof cursor | undefined = undefined
 
-            if (items.length! > limit) {
+            if (items.length > limit) {
                 const nextItem = items.pop()
-                nextCursor = nextItem!.id
+                nextCursor = nextItem?.id ?? ''
             }
 
             return {
