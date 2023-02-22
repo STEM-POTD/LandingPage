@@ -6,23 +6,24 @@ export const signJwt = (
     key: 'accessTokenPrivateKey' | 'refreshTokenPrivateKey',
     options: SignOptions = {}
 ) => {
+    const envKey = key === 'accessTokenPrivateKey' ? env.ACCESS_TOKEN_PRIVATE_KEY : env.REFRESH_TOKEN_PRIVATE_KEY
+
     const privateKey = Buffer.from(
-        key === 'accessTokenPrivateKey'
-            ? env.ACCESS_TOKEN_PRIVATE_KEY
-            : env.REFRESH_TOKEN_PRIVATE_KEY,
+        envKey,
         'base64'
     ).toString('ascii')
+
     return jwt.sign(payload, privateKey, {
-        algorithm: 'HS256',
-        expiresIn: '15m',
         ...(options && options),
+        algorithm: 'RS256',
+        expiresIn: '15m',
     })
 }
 
 export const decodeAndVerifyJwt = <T>(
     token: string,
     key: 'accessTokenPublicKey' | 'refreshTokenPublicKey'
-): T | null => {
+) => {
     try {
         const publicKey = Buffer.from(
             key === 'accessTokenPublicKey'
@@ -30,6 +31,7 @@ export const decodeAndVerifyJwt = <T>(
                 : env.REFRESH_TOKEN_PUBLIC_KEY,
             'base64'
         ).toString('ascii')
+
         return jwt.verify(token, publicKey, {
             algorithms: ['RS256'],
         }) as T

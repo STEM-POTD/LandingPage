@@ -5,59 +5,60 @@ import { z, ZodError } from 'zod'
 import superjson from 'superjson'
 import redisClient from './redis'
 import { isDeepStrictEqual } from 'util'
+import { User } from '@prisma/client'
 
 export const createContext = async ({ req, res }: CreateExpressContextOptions) => {
 
     const getUserFromHeader = async () => {
         if (req.headers.authorization) {
-            const id = decodeAndVerifyJwt<{ sub: string }>(
-                req.headers.authorization.split(' ')[1],
-                'accessTokenPublicKey'
-            )
-            console.log({ id: id })
-            if (!id) {
-                return null
-            }
+            // const decoded = decodeAndVerifyJwt<User>(
+            //     req.headers.authorization,
+            //     'accessTokenPublicKey'
+            // )
+            // console.log({ id: decoded })
+            // if (!decoded) {
+            //     return null
+            // }
 
-            const session = await redisClient.get(id.sub)
+            // const session = await redisClient.get(decoded.id)
 
-            if (!session) {
-                return null
-            }
+            // if (!session) {
+            //     return null
+            // }
 
-            const userValidator = z.object({
-                id: z.string().cuid(),
-                email: z.string().email(),
-                name: z.string(),
-                role: z.enum(['ADMIN', 'USER']),
-                password: z.string(),
-                provider: z.string().nullable(),
-                createdAt: z.coerce.date(),
-                updatedAt: z.coerce.date(),
-                score: z.number(),
-            })
+            // const userValidator = z.object({
+            //     id: z.string().cuid(),
+            //     email: z.string().email(),
+            //     name: z.string(),
+            //     role: z.enum(['ADMIN', 'USER']),
+            //     password: z.string(),
+            //     provider: z.string().nullable(),
+            //     createdAt: z.coerce.date(),
+            //     updatedAt: z.coerce.date(),
+            //     score: z.number(),
+            // })
 
-            const sessionUser = userValidator.safeParse(JSON.parse(session))
+            // const sessionUser = userValidator.safeParse(JSON.parse(session))
 
-            if (!sessionUser.success) {
-                return null
-            }
+            // if (!sessionUser.success) {
+            //     return null
+            // }
 
-            const { id: userId } = sessionUser.data
+            // const { id: userId } = sessionUser.data
 
-            const user = await prisma.user.findUnique({
-                where: {
-                    id: userId,
-                },
-            })
+            // const user = await prisma.user.findUnique({
+            //     where: {
+            //         id: userId,
+            //     },
+            // })
 
-            if (!isDeepStrictEqual(user, sessionUser.data))
-                redisClient.set(userId, JSON.stringify(user))
+            // if (!isDeepStrictEqual(user, sessionUser.data))
+            //     redisClient.set(userId, JSON.stringify(user))
 
-            if (!user)
-                return null
+            // if (!user)
+            //     return null
 
-            return user
+            // return user
         }
         return null
     }

@@ -93,7 +93,7 @@ const authRouter = router({
         .mutation(async ({ ctx, input: { name, email, password } }) => {
             const user = await ctx.prisma.user.update({
                 where: {
-                    id: ctx.user.id,
+                    id: 'ckuq2q0x0000a0a9x2x2x2x2x',
                 },
                 data: {
                     name,
@@ -192,7 +192,7 @@ export const userRouter = router({
 
                 ctx.redis.set(user.id, JSON.stringify(user), { EX: 60 * 15 })
 
-                const accessToken = signJwt({ sub: user.id }, 'accessTokenPrivateKey')
+                const accessToken = signJwt(user, 'accessTokenPrivateKey')
                 const refreshToken = signJwt({ sub: user.id }, 'refreshTokenPrivateKey')
 
                 ctx.res.cookie('accessToken', accessToken, accessTokenCookieOptions)
