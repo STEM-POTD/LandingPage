@@ -1,34 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Cookies from 'universal-cookie'
 import { useUserLogin } from 'utils/UserContext'
-import { User } from '@prisma/client'
-import userValidator from 'utils/UserValidator'
 import { trpc } from 'utils/trpc'
 
-const cookies = new Cookies()
-
 const HeaderComponent: React.FC = () => {
-    const [user, setUser] = useUserLogin()
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const user = useUserLogin()
+    const isLoggedIn = user !== null
 
-    const signOutUser = async () => {
-        setUser({})
-        setIsLoggedIn(false)
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-    }
-
-    // Set Logged In State
-    useEffect(() => {
-        const response = userValidator.safeParse(user)
-
-        if (response.success) {
-            setIsLoggedIn(true)
-        }
-    }, [user])
+    const { mutateAsync: signOutUser } = trpc.authed.logout.useMutation()
 
     return (
         <header className="header-area header-sticky sticky top-0">
@@ -103,7 +84,7 @@ const HeaderComponent: React.FC = () => {
                                             <a
                                                 id={'signOut'}
                                                 href="/"
-                                                onClick={signOutUser}
+                                                onClick={() => signOutUser()}
                                                 className={`menu-item`}
                                             >
                                                 Sign Out

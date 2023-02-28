@@ -2,19 +2,11 @@ import { Problem } from '.prisma/client'
 import MathJax from 'better-react-mathjax/MathJax'
 import React, { useEffect, useRef, useState } from 'react'
 import { trpc } from 'utils/trpc'
-import { useUserLogin } from 'utils/UserContext'
 
 const PracticeMainComponent = () => {
-    const [user, _] = useUserLogin()
+    const { data: problems, isLoading } = trpc.getProblems.useQuery()
 
-    console.log(user?.id)
-
-    const { data: problems, isLoading } = trpc.getProblems.useQuery({
-        userId: user?.id,
-    })
-
-    console.log(problems)
-    const solveProblem = trpc.solveProblem.useMutation()
+    const solveProblem = trpc.authed.solveProblem.useMutation()
 
     const [randomOrderedProblems, setRandomOrderedProblems] = useState(
         problems ?? []
@@ -48,7 +40,6 @@ const PracticeMainComponent = () => {
                                     setVisibleIndex((prev) => prev + 1)
                                     solveProblem.mutate({
                                         problemId: problem.id,
-                                        userId: user!.id,
                                     })
                                 }}
                             />

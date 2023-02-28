@@ -20,9 +20,9 @@ import superjson from 'superjson'
 const queryClient = new QueryClient()
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-    const [globalUser] = useUserLogin()
+    const user = useUserLogin()
 
-    return globalUser ? (
+    return user ? (
         children
     ) : (
         <Navigate

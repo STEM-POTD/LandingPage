@@ -1,8 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router'
 import { trpc } from 'utils/trpc'
-import { useUserLogin } from 'utils/UserContext'
-import userValidator from 'utils/UserValidator'
 import { z } from 'zod'
 
 const LoginMainComponent = () => {
@@ -19,7 +17,6 @@ const LoginMainComponent = () => {
 }
 
 const LoginForm = () => {
-    const [user, setUser] = useUserLogin()
     const navigate = useNavigate()
 
     const signIn = trpc.login.useMutation({
@@ -29,17 +26,18 @@ const LoginForm = () => {
                 alert(data.error.message)
                 return
             }
-            console.log('sucess')
             const {
                 data: { accessToken },
             } = data
+
+            console.log('data: ', accessToken)
+
             document.cookie = `token=${accessToken}`
         },
     })
 
     const signInUser = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log('submit')
 
         const data = new FormData(e.currentTarget)
         const dataObj = Object.fromEntries(data.entries())
@@ -76,14 +74,10 @@ const LoginForm = () => {
             return
         }
 
-        const user = userValidator.parse(res.data.user)
+        alert('Login successful')
 
-        localStorage.setItem('user', JSON.stringify(user))
-
-        setUser(user)
-
-        // navigate('/')
-        // window.location.reload()
+        navigate('/')
+        window.location.reload()
     }
 
     return (

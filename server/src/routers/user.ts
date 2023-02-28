@@ -40,17 +40,16 @@ const isAuthed = middleware(async ({ ctx, next }) => {
     })
 })
 
-const authedProcedure = publicProcedure.use(isAuthed)
+export const authedProcedure = publicProcedure.use(isAuthed)
 
 const authRouter = router({
     solveProblem: authedProcedure
         .input(
             z.object({
                 problemId: z.string(),
-                userId: z.string(),
             })
         )
-        .mutation(async ({ ctx, input: { problemId, userId } }): Promise<ResponseType<User, TRPCError>> => {
+        .mutation(async ({ ctx, input: { problemId } }): Promise<ResponseType<User, TRPCError>> => {
             const problem = await ctx.prisma.problem.findUniqueOrThrow({
                 where: {
                     id: problemId,
@@ -59,7 +58,7 @@ const authRouter = router({
 
             const updatedUser = await ctx.prisma.user.update({
                 where: {
-                    id: userId,
+                    id: ctx.user.id,
                 },
                 data: {
                     solved: {
@@ -93,9 +92,10 @@ const authRouter = router({
         .mutation(async ({ ctx, input: { name, email, password } }) => {
             const user = await ctx.prisma.user.update({
                 where: {
-                    id: 'ckuq2q0x0000a0a9x2x2x2x2x',
+                    id: ctx.user.id,
                 },
                 data: {
+                    ...ctx.user,
                     name,
                     email,
                     password,
@@ -104,6 +104,22 @@ const authRouter = router({
 
             return {
                 data: user,
+                status: 'success',
+            }
+        }),
+
+    logout: authedProcedure
+        .mutation(async ({ ctx }) => {
+            ctx.res.clearCookie('accessToken', accessTokenCookieOptions)
+            ctx.res.clearCookie('refreshToken', refreshTokenCookieOptions)
+            ctx.res.cookie('logged_in', false, {
+                ...cookieOptions,
+                httpOnly: false,
+            })
+
+            ctx.redis.del(ctx.user.id)
+
+            return {
                 status: 'success',
             }
         }),
@@ -159,7 +175,6 @@ export const userRouter = router({
                 ctx,
                 input: { email, password },
             }): Promise<ResponseType<{
-                user: User,
                 accessToken: string
             }, TRPCError>> => {
                 const user = await ctx.prisma.user.findUnique({
@@ -205,26 +220,13 @@ export const userRouter = router({
                 return {
                     status: 'success',
                     data: {
-                        user,
                         accessToken,
                     },
                 }
             }
         ),
 
-    logout: publicProcedure
-        .mutation(async ({ ctx }) => {
-            ctx.res.clearCookie('accessToken', accessTokenCookieOptions)
-            ctx.res.clearCookie('refreshToken', refreshTokenCookieOptions)
-            ctx.res.cookie('logged_in', false, {
-                ...cookieOptions,
-                httpOnly: false,
-            })
 
-            return {
-                status: 'success',
-            }
-        }),
 
     getUsersByScore: publicProcedure.query(async ({ ctx }) => {
         const users = await ctx.prisma.user.findMany({
