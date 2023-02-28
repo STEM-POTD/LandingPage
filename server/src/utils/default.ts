@@ -1,6 +1,7 @@
 import path from 'path'
 import { config } from 'dotenv'
 import { z } from 'zod'
+import { readFileSync } from 'fs'
 
 config({ path: path.resolve(__dirname, '../../.env') })
 

@@ -14,11 +14,10 @@ export const signJwt = (
         'base64'
     ).toString('ascii')
 
-    console.log(privateKey)
-
     return jwt.sign(payload, privateKey, {
-        ...(options && options),
+        ...options,
         algorithm: 'RS256',
+        expiresIn: '1d'
     })
 }
 
@@ -27,13 +26,20 @@ export const decodeAndVerifyJwt = (
     key: 'accessTokenPublicKey' | 'refreshTokenPublicKey'
 ) => {
     try {
+        const envKey = key === 'accessTokenPublicKey'
+            ? env.ACCESS_TOKEN_PUBLIC_KEY
+            : env.REFRESH_TOKEN_PUBLIC_KEY
+
         const publicKey = Buffer.from(
-            key === 'accessTokenPublicKey'
-                ? env.ACCESS_TOKEN_PUBLIC_KEY
-                : env.REFRESH_TOKEN_PUBLIC_KEY,
+            envKey,
             'base64'
         ).toString('ascii')
-        const decoded = jwt.decode(token)
+
+        console.log(publicKey)
+
+        const decoded = jwt.verify(token, publicKey, {
+            algorithms: ['RS256'],
+        })
 
         const userValidator = z.object({
             id: z.string().cuid(),
@@ -47,9 +53,7 @@ export const decodeAndVerifyJwt = (
             score: z.number(),
         })
 
-        const decodedJwt = userValidator.parse(decoded)
-
-        return decodedJwt
+        return userValidator.parse(decoded)
     } catch (error) {
         console.log(error)
         return null
