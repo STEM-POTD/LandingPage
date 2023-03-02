@@ -35,8 +35,6 @@ export const decodeAndVerifyJwt = (
             'base64'
         ).toString('ascii')
 
-        console.log(publicKey)
-
         const decoded = jwt.verify(token, publicKey, {
             algorithms: ['RS256'],
         })

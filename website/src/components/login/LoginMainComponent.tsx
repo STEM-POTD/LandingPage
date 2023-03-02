@@ -19,7 +19,7 @@ const LoginMainComponent = () => {
 const LoginForm = () => {
     const navigate = useNavigate()
 
-    const signIn = trpc.login.useMutation({
+    const signIn = trpc.user.login.useMutation({
         onSuccess(data) {
             if (data.status === 'error') {
                 console.log('error: ', data)
@@ -29,8 +29,6 @@ const LoginForm = () => {
             const {
                 data: { accessToken },
             } = data
-
-            console.log('data: ', accessToken)
 
             document.cookie = `token=${accessToken}`
         },

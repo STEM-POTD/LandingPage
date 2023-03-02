@@ -18,7 +18,7 @@ const RegisterMainComponent = () => {
 }
 
 const RegisterForm = () => {
-    const registerUser = trpc.register.useMutation()
+    const registerUser = trpc.user.register.useMutation()
 
     return (
         <form

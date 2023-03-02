@@ -18,19 +18,29 @@ model Problem {
   solvedBy    User[]
 }
 
+model Team {
+  id        String   @id @default(cuid())
+  name      String
+  members   User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model User {
   id        String    @id @default(cuid())
   // name      String    @db.VarChar(255)
   name      String
   email     String    @unique
   // role      Role      @default(USER)
-  role      String      @default("USER")
+  role      String    @default("USER")
   password  String
   provider  String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   score     Int       @default(0)
   solved    Problem[]
+  teamId    String?
+  team      Team?     @relation(fields: [teamId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 // enum Role {

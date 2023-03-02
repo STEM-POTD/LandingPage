@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -6,10 +6,9 @@ import { useUserLogin } from 'utils/UserContext'
 import { trpc } from 'utils/trpc'
 
 const HeaderComponent: React.FC = () => {
-    const user = useUserLogin()
-    const isLoggedIn = user !== null
+    const { loggedIn } = useUserLogin()
 
-    const { mutateAsync: signOutUser } = trpc.authed.logout.useMutation()
+    const { mutateAsync: signOutUser } = trpc.user.authed.logout.useMutation()
 
     return (
         <header className="header-area header-sticky sticky top-0">
@@ -48,7 +47,7 @@ const HeaderComponent: React.FC = () => {
                                         Team
                                     </a>
                                 </li>
-                                {!isLoggedIn ? (
+                                {!loggedIn ? (
                                     <>
                                         <li className="scroll-to-section">
                                             <a

@@ -6,32 +6,18 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { token, trpc } from 'utils/trpc'
 import { httpBatchLink } from '@trpc/client'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LandingMainComponent from 'components/landing/LandingMainComponent'
 import PracticeMainComponent from 'components/practice/PracticeMainComponent'
 import { MathJaxContext } from 'better-react-mathjax'
 import LeaderboardMainComponent from 'components/leaderboard/LeaderboardMainComponent'
 import RegisterMainComponent from 'components/login/RegisterMainComponent'
 import LoginMainComponent from 'components/login/LoginMainComponent'
-import { UserProvider, useUserLogin } from 'utils/UserContext'
+import { PrivateRoute, UserProvider } from 'utils/UserContext'
 import { UserHomeComponent } from 'components/user/UserHomeComponent'
 import superjson from 'superjson'
 
 const queryClient = new QueryClient()
-
-const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-    const user = useUserLogin()
-
-    return user ? (
-        children
-    ) : (
-        <Navigate
-            to={'/login'}
-            state={{ from: window.location.pathname }}
-            replace
-        />
-    )
-}
 
 const router = createBrowserRouter([
     {
@@ -109,7 +95,6 @@ function App() {
             ],
         })
     )
-
     return (
         <>
             <MathJaxContext version={3} config={config}>

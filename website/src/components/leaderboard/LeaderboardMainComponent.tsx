@@ -7,7 +7,7 @@ const LeaderboardMainComponent = () => {
         error,
         data: users,
         isLoading,
-    } = trpc.getUsersByScore.useQuery()
+    } = trpc.user.allByScore.useQuery()
 
     if (isLoading) return <p>Loading...</p>
     if (isError) return <p>Error: {error.message}</p>

@@ -10,8 +10,9 @@ type ResponseType<T, K> = { status: 'success', data: T } | { status: 'error', er
 
 const cookieOptions: CookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    // secure: process.env.NODE_ENV === 'production',
+    secure: true,
+    sameSite: 'none',
 }
 
 const accessTokenCookieOptions: CookieOptions = {
@@ -78,7 +79,7 @@ const authRouter = router({
             }
         }),
 
-    updateUser: authedProcedure
+    update: authedProcedure
         .input(
             z.object({
                 name: z.string().optional(),
@@ -89,16 +90,14 @@ const authRouter = router({
                     .optional(),
             })
         )
-        .mutation(async ({ ctx, input: { name, email, password } }) => {
+        .mutation(async ({ ctx, input }) => {
             const user = await ctx.prisma.user.update({
                 where: {
                     id: ctx.user.id,
                 },
                 data: {
                     ...ctx.user,
-                    name,
-                    email,
-                    password,
+                    ...input,
                 },
             })
 
@@ -124,9 +123,9 @@ const authRouter = router({
             }
         }),
 
-    getUser: authedProcedure.query(async ({ ctx }) => {
+    authedUser: authedProcedure.query(async ({ ctx }) => {
         return {
-            data: ctx.user,
+            user: ctx.user,
             status: 'success',
         }
     }),
@@ -228,7 +227,7 @@ export const userRouter = router({
 
 
 
-    getUsersByScore: publicProcedure.query(async ({ ctx }) => {
+    allByScore: publicProcedure.query(async ({ ctx }) => {
         const users = await ctx.prisma.user.findMany({
             orderBy: {
                 score: 'desc',
@@ -237,37 +236,6 @@ export const userRouter = router({
 
         return users
     }),
-
-    update: publicProcedure
-        .input(
-            z.object({
-                email: z.string().email(),
-                password: z.string()
-            })
-        ).mutation(async ({ ctx, input: { email, password } }): Promise<ResponseType<User, TRPCError>> => {
-            const user = await ctx.prisma.user.findFirstOrThrow({
-                where: {
-                    email,
-                }
-            })
-
-            const match = password === user.password
-
-            if (!match) {
-                return {
-                    status: 'error',
-                    error: new TRPCError({
-                        code: 'BAD_REQUEST',
-                        message: 'Incorrect password',
-                    })
-                }
-            }
-
-            return {
-                status: 'success',
-                data: user,
-            }
-        }),
 
     authed: authRouter,
 })
