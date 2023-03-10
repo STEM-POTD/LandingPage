@@ -20,7 +20,7 @@ model Problem {
 
 model Team {
   id        String   @id @default(cuid())
-  name      String
+  name      String   @unique
   members   User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -29,7 +29,7 @@ model Team {
 model User {
   id        String    @id @default(cuid())
   // name      String    @db.VarChar(255)
-  name      String
+  name      String    @unique
   email     String    @unique
   // role      Role      @default(USER)
   role      String    @default("USER")
@@ -39,8 +39,8 @@ model User {
   updatedAt DateTime  @updatedAt
   score     Int       @default(0)
   solved    Problem[]
-  teamId    String?
-  team      Team?     @relation(fields: [teamId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  teamId    String?   @unique
+  team      Team?     @relation(fields: [teamId], references: [id])
 }
 
 // enum Role {

@@ -1,6 +1,6 @@
 import { User } from '@prisma/client'
 import React, { createContext, useContext } from 'react'
-import { Navigate } from 'react-router'
+import { Navigate, Outlet } from 'react-router'
 import { trpc } from './trpc'
 
 type UserContextType = { user: User; loggedIn: true } | { loggedIn: false }
@@ -34,7 +34,7 @@ export const UserProvider: React.FC<{ children: JSX.Element[] }> = ({
     return <UserContext.Provider value={res}>{children}</UserContext.Provider>
 }
 
-export const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+export const PrivateRoute = () => {
     const { isLoading, isError } = useUserData()
 
     return isLoading ? (
@@ -42,6 +42,6 @@ export const PrivateRoute = ({ children }: { children: JSX.Element }) => {
     ) : isError ? (
         <Navigate to={'/login'} state={{ from: window.location.pathname }} />
     ) : (
-        children
+        <Outlet />
     )
 }

@@ -4,16 +4,16 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "start": "vite --port 3000",
+        "start": "vite --port 3000 --host 127.0.0.1",
         "build": "tsc && vite build",
-        "preview": "vite preview",
+        "preview": "vite preview --host 127.0.0.1 --port 3000",
         "update": "yarn upgrade server",
         "test": "vitest",
         "coverage": "vitest run --coverage"
     },
     "dependencies": {
         "@popperjs/core": "^2.11.6",
-        "@prisma/client": "^4.6.1",
+        "@prisma/client": "^4.11.0",
         "@tanstack/react-query": "^4.16.1",
         "@tanstack/react-query-devtools": "^4.16.1",
         "@trpc/client": "^10.0.0-rc.8",
@@ -22,7 +22,7 @@
         "@types/node": "^18.11.9",
         "better-react-mathjax": "^2.0.2",
         "bootstrap": "^5.2.1",
-        "daisyui": "^2.38.1",
+        "daisyui": "^2.51.3",
         "localforage": "^1.10.0",
         "match-sorter": "^6.3.1",
         "prettier": "^2.7.1",
@@ -48,7 +48,7 @@
         "postcss": "^8.4.18",
         "prettier": "^2.7.1",
         "prettier-plugin-tailwindcss": "^0.1.13",
-        "prisma": "^4.6.1",
+        "prisma": "^4.11.0",
         "tailwindcss": "^3.2.2",
         "vite": "^3.2.2",
         "vite-tsconfig-paths": "^3.5.2"

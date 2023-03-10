@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import HeaderComponent from './components/HeaderComponent'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import FooterComponent from 'components/FooterComponent'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { token, trpc } from 'utils/trpc'
 import { httpBatchLink } from '@trpc/client'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import LandingMainComponent from 'components/landing/LandingMainComponent'
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import PracticeMainComponent from 'components/practice/PracticeMainComponent'
 import { MathJaxContext } from 'better-react-mathjax'
 import LeaderboardMainComponent from 'components/leaderboard/LeaderboardMainComponent'
@@ -16,45 +14,62 @@ import LoginMainComponent from 'components/login/LoginMainComponent'
 import { PrivateRoute, UserProvider } from 'utils/UserContext'
 import { UserHomeComponent } from 'components/user/UserHomeComponent'
 import superjson from 'superjson'
+import LandingWelcomeComponent from 'components/landing/LandingWelcomeComponent'
+import LandingAboutComponent from 'components/landing/LandingAboutComponent'
+import LandingTestimonialComponent from 'components/landing/LandingTestimonialComponent'
 
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <LandingMainComponent />,
-    },
-    {
-        path: '/practice',
         element: (
-            <PrivateRoute>
-                <PracticeMainComponent />
-            </PrivateRoute>
+            <>
+                <HeaderComponent />
+                <Outlet />
+                <FooterComponent />
+            </>
         ),
-    },
-    {
-        path: '/leaderboard',
-        element: <LeaderboardMainComponent />,
-    },
-    {
-        path: '/login',
-        element: <LoginMainComponent />,
-    },
-    {
-        path: '/register',
-        element: <RegisterMainComponent />,
-    },
-    {
-        path: '/leaderboard',
-        element: <LeaderboardMainComponent />,
-    },
-    {
-        path: '/user',
-        element: (
-            <PrivateRoute>
-                <UserHomeComponent />
-            </PrivateRoute>
-        ),
+        children: [
+            {
+                path: '/',
+                element: <LandingWelcomeComponent />,
+            },
+            {
+                path: 'news',
+                element: <LandingAboutComponent />,
+            },
+            {
+                path: 'team',
+                element: <LandingTestimonialComponent />,
+            },
+            {
+                path: 'authed',
+                element: <PrivateRoute />,
+                children: [
+                    {
+                        path: 'practice',
+                        element: <PracticeMainComponent />,
+                    },
+                    {
+                        path: 'user',
+                        element: <UserHomeComponent />,
+                    },
+                ],
+            },
+            {
+                path: 'leaderboard',
+                element: <LeaderboardMainComponent />,
+            },
+            {
+                path: 'login',
+                element: <LoginMainComponent />,
+            },
+            {
+                path: 'register',
+                element: <RegisterMainComponent />,
+            },
+        ],
     },
 ])
 
@@ -101,7 +116,6 @@ function App() {
                 <trpc.Provider client={trpcClient} queryClient={queryClient}>
                     <QueryClientProvider client={queryClient}>
                         <UserProvider>
-                            <HeaderComponent />
                             <RouterProvider router={router} />
                             <ReactQueryDevtools
                                 initialIsOpen
@@ -114,7 +128,6 @@ function App() {
                                     },
                                 }}
                             />
-                            <FooterComponent />
                         </UserProvider>
                     </QueryClientProvider>
                 </trpc.Provider>

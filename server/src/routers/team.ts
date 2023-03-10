@@ -1,7 +1,8 @@
-import { router } from "../utils/trpc";
+import { publicProcedure, router } from "../utils/trpc";
 import z from "zod";
 import { authedProcedure } from "./user";
 import { TRPCError } from "@trpc/server";
+import { Problem } from "@prisma/client";
 
 export const teamRouter = router({
     create: authedProcedure
@@ -11,39 +12,9 @@ export const teamRouter = router({
             })
         )
         .mutation(async ({ ctx, input: { name } }) => {
-            const exists = await ctx.prisma.team.findFirst({
-                where: {
-                    OR: [
-                        {
-                            name,
-                        },
-                        {
-                            members: {
-                                some: {
-                                    id: ctx.user.id,
-                                },
-                            },
-                        }
-
-                    ],
-                },
-            });
-
-            if (exists) {
-                throw new TRPCError({
-                    code: "BAD_REQUEST",
-                    message: "Team already exists",
-                });
-            }
-
             const team = await ctx.prisma.team.create({
                 data: {
                     name,
-                    members: {
-                        connect: {
-                            id: ctx.user.id,
-                        }
-                    },
                 },
             });
 
@@ -53,13 +24,33 @@ export const teamRouter = router({
             };
         }),
 
-    addMember: authedProcedure
+    join: authedProcedure
         .input(
             z.object({
                 teamId: z.string(),
             })
         )
         .mutation(async ({ ctx, input: { teamId } }) => {
+            const isFull = await ctx.prisma.team.findFirstOrThrow({
+                where: {
+                    id: teamId,
+                },
+                select: {
+                    _count: {
+                        select: {
+                            members: true,
+                        },
+                    }
+                },
+            });
+
+            if (isFull._count.members > 2) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Team is full",
+                });
+            }
+
             const team = await ctx.prisma.team.update({
                 where: {
                     id: teamId,
@@ -79,7 +70,7 @@ export const teamRouter = router({
             };
         }),
 
-    removeMember: authedProcedure
+    leave: authedProcedure
         .input(
             z.object({
                 teamId: z.string(),
@@ -124,4 +115,73 @@ export const teamRouter = router({
             };
         }),
 
+    all: publicProcedure
+        .query(async ({ ctx }) => {
+            const teams = await ctx.prisma.team.findMany({
+                include: {
+                    members: true,
+                },
+            });
+
+            return {
+                teams,
+                status: "success",
+            };
+        }),
+
+    byId: publicProcedure
+        .input(
+            z.object({
+                id: z.string().cuid(),
+            })
+        )
+        .query(async ({ ctx, input: { id } }) => {
+            const team = await ctx.prisma.user.findFirstOrThrow({
+                where: {
+                    id,
+                },
+            }).team(
+                {
+                    include: {
+                        members: true,
+                    },
+                }
+            );
+
+            return {
+                team,
+                status: "success",
+            };
+        }),
+
+    problems: publicProcedure
+        .input(
+            z.object({
+                teamId: z.string().cuid(),
+            })
+        )
+        .query(async ({ ctx, input: { teamId } }) => {
+            const members = await ctx.prisma.team.findFirstOrThrow({
+                where: {
+                    id: teamId,
+                },
+            }).members();
+
+            const problems: Problem[] = [];
+
+            for (const member of members) {
+                const solved = await ctx.prisma.user.findFirstOrThrow({
+                    where: {
+                        id: member.id,
+                    },
+                }).solved();
+
+                problems.push(...solved);
+            }
+
+            return {
+                problems,
+                status: "success",
+            };
+        })
 });

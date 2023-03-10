@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useUserLogin } from 'utils/UserContext'
 import { trpc } from 'utils/trpc'
+import { Link, NavLink } from 'react-router-dom'
 
 const HeaderComponent: React.FC = () => {
     const { loggedIn } = useUserLogin()
@@ -112,4 +113,75 @@ const HeaderComponent: React.FC = () => {
     )
 }
 
-export default HeaderComponent
+const NewHeaderComponent: React.FC = () => {
+    const { loggedIn } = useUserLogin()
+
+    const { mutateAsync: signOutUser } = trpc.user.authed.logout.useMutation()
+
+    return (
+        <header className="bg-nav-yellow fixed top-0 z-50 flex h-20 w-full items-center justify-center">
+            <a href="/" className="absolute left-0 mx-4 text-3xl font-black">
+                STEM POTD
+            </a>
+            <nav className="flex h-full w-full items-center justify-center">
+                <div className="flex space-x-4 font-light">
+                    <NavLink id={'home'} to="/" end>
+                        Home
+                    </NavLink>
+                    <Link id={'news'} to="/news">
+                        News
+                    </Link>
+                    <NavLink id={'team'} to="/team">
+                        Team
+                    </NavLink>
+
+                    {!loggedIn ? (
+                        <>
+                            <NavLink id={'login'} to="/login">
+                                Sign In
+                            </NavLink>
+
+                            <NavLink
+                                id={'register'}
+                                to="/register"
+                                className={`menu-item`}
+                            >
+                                Register User
+                            </NavLink>
+                            <NavLink
+                                id={'leaderboard'}
+                                to="/leaderboard"
+                                className={`menu-item`}
+                            >
+                                Leaderboard
+                            </NavLink>
+                        </>
+                    ) : (
+                        <>
+                            <NavLink
+                                id={'dashboard'}
+                                to="/authed/user"
+                                className={`menu-item`}
+                            >
+                                Dashboard
+                            </NavLink>
+                            <button
+                                type="button"
+                                id={'signOut'}
+                                onClick={() => {
+                                    signOutUser()
+                                    window.location.reload()
+                                }}
+                                className={`menu-item`}
+                            >
+                                Sign Out
+                            </button>
+                        </>
+                    )}
+                </div>
+            </nav>
+        </header>
+    )
+}
+
+export default NewHeaderComponent

@@ -19,7 +19,7 @@ const LoginMainComponent = () => {
 const LoginForm = () => {
     const navigate = useNavigate()
 
-    const signIn = trpc.user.login.useMutation({
+    const { mutateAsync: signIn, isLoading } = trpc.user.login.useMutation({
         onSuccess(data) {
             if (data.status === 'error') {
                 console.log('error: ', data)
@@ -61,7 +61,7 @@ const LoginForm = () => {
 
         const { email, password } = login.data
 
-        const res = await signIn.mutateAsync({
+        const res = await signIn({
             email,
             password,
         })
@@ -110,8 +110,9 @@ const LoginForm = () => {
                 <button
                     type="submit"
                     className=" my-2 rounded-full bg-green-800 p-2 px-4"
+                    disabled={isLoading}
                 >
-                    Login
+                    {isLoading ? 'Logging In...' : 'Login'}
                 </button>
             </div>
         </form>

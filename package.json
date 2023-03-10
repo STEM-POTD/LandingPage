@@ -9,7 +9,10 @@
     "scripts": {
         "start": "concurrently \"wsrun --parallel start\"",
         "format": "prettier --check --ignore-path .gitignore .",
-        "format:fix": "prettier --write --ignore-path .gitignore ."
+        "format:fix": "prettier --write --ignore-path .gitignore .",
+        "db:push": "cd server && prisma db push",
+        "db:format": "cd server && prisma format",
+        "postinstall": "prisma generate"
     },
     "workspaces": [
         "server",

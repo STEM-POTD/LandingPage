@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { trpc } from 'utils/trpc'
+import { useNavigate } from 'react-router'
 import { z } from 'zod'
 
 const RegisterMainComponent = () => {
@@ -18,7 +19,19 @@ const RegisterMainComponent = () => {
 }
 
 const RegisterForm = () => {
-    const registerUser = trpc.user.register.useMutation()
+    const navigate = useNavigate()
+    const { mutateAsync: register, isLoading: isRegistering } =
+        trpc.user.register.useMutation({
+            onSuccess: () => {
+                alert('Successfully registered user')
+                navigate('/')
+            },
+
+            onError: (error) => {
+                console.log('error: ', error)
+                alert(`Error registering user : ${error.message}`)
+            },
+        })
 
     return (
         <form
@@ -44,26 +57,21 @@ const RegisterForm = () => {
                         }),
                 })
 
-                const register = registerValidator.safeParse(data)
+                const registerUser = registerValidator.safeParse(data)
 
-                if (!register.success) {
-                    console.log('error: ', register.error)
-                    alert(register.error.issues[0].message)
+                if (!registerUser.success) {
+                    console.log('error: ', registerUser.error)
+                    alert(registerUser.error.issues[0].message)
                     return
                 }
 
-                const { username, email, password } = register.data
+                const { username, email, password } = registerUser.data
 
-                const newUser = await registerUser.mutateAsync({
+                const newUser = await register({
                     name: username,
                     email,
                     password,
                 })
-
-                if (registerUser.isError) {
-                    console.log('error: ', newUser)
-                    alert(registerUser.error.message)
-                }
 
                 console.log('newUser: ', newUser)
             }}
@@ -108,8 +116,9 @@ const RegisterForm = () => {
                 <button
                     type="submit"
                     className=" my-2 rounded-full bg-green-800 p-2 px-4"
+                    disabled={isRegistering}
                 >
-                    Register
+                    {isRegistering ? 'Registering...' : 'Register'}
                 </button>
             </div>
         </form>

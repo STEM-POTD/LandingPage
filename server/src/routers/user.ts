@@ -124,8 +124,18 @@ const authRouter = router({
         }),
 
     authedUser: authedProcedure.query(async ({ ctx }) => {
+        const user = await ctx.prisma.user.findUniqueOrThrow({
+            where: {
+                id: ctx.user.id,
+            },
+            include: {
+                solved: true,
+                team: true,
+            },
+        })
+
         return {
-            user: ctx.user,
+            user,
             status: 'success',
         }
     }),

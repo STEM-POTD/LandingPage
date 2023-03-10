@@ -1,35 +1,23 @@
 import React from 'react'
-import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 
 const LandingWelcomeComponent: React.FC = () => {
     return (
-        <div className="welcome-area" id="welcome">
-            <div className="header-text">
-                <Container>
-                    <Row>
-                        <Col
-                            className="left-text"
-                            lg={6}
-                            md={12}
-                            sm={12}
-                            xs={12}
-                        >
-                            <h1>
-                                STEM <em>POTD</em>
-                            </h1>
-                            <p>
-                                An organization dedicated to writing, teaching,
-                                and challenging the next generation of curious
-                                learners.
-                            </p>
-                            <a href="#about" className="main-button">
-                                Latest News
-                            </a>
-                        </Col>
-                    </Row>
-                </Container>
+        <div
+            className="bg-banner-image flex h-screen w-screen flex-col bg-contain bg-right-top bg-no-repeat"
+            id="welcome"
+        >
+            <div className="ml-4 mt-[20%] w-1/3">
+                <h1 className="mb-8  text-5xl font-black">STEM POTD</h1>
+                <p className="mb-10 text-lg">
+                    An organization dedicated to writing, teaching, and
+                    challenging the next generation of curious learners.
+                </p>
+                <a
+                    href="#about"
+                    className="bg-nav-yellow rounded-full py-3 px-4 font-bold hover:bg-white hover:text-slate-800"
+                >
+                    <button type="button">Latest News</button>
+                </a>
             </div>
         </div>
     )
