@@ -1,35 +1,31 @@
 import React, { useState } from 'react'
-import HeaderComponent from './components/HeaderComponent'
-import FooterComponent from 'components/FooterComponent'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { token, trpc } from 'utils/trpc'
 import { httpBatchLink } from '@trpc/client'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
-import PracticeMainComponent from 'components/practice/PracticeMainComponent'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { MathJaxContext } from 'better-react-mathjax'
+import superjson from 'superjson'
+
+import { PrivateRoute, UserProvider } from 'utils/UserContext'
+
+import LandingWelcomeComponent from 'components/landing/LandingWelcomeComponent'
+import LandingNewsComponent from 'components/landing/LandingNewsComponent'
+import LandingTeamComponent from 'components/landing/LandingTeamComponent'
+import PracticeMainComponent from 'components/practice/PracticeMainComponent'
+import UserHomeComponent from 'components/user/UserHomeComponent'
+import LoginMainComponent from 'components/login/LoginMainComponent'
 import LeaderboardMainComponent from 'components/leaderboard/LeaderboardMainComponent'
 import RegisterMainComponent from 'components/login/RegisterMainComponent'
-import LoginMainComponent from 'components/login/LoginMainComponent'
-import { PrivateRoute, UserProvider } from 'utils/UserContext'
-import { UserHomeComponent } from 'components/user/UserHomeComponent'
-import superjson from 'superjson'
-import LandingWelcomeComponent from 'components/landing/LandingWelcomeComponent'
-import LandingAboutComponent from 'components/landing/LandingAboutComponent'
-import LandingTestimonialComponent from 'components/landing/LandingTestimonialComponent'
+
+import RootLayout from 'layouts/RootLayout'
 
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: (
-            <>
-                <HeaderComponent />
-                <Outlet />
-                <FooterComponent />
-            </>
-        ),
+        element: <RootLayout />,
         children: [
             {
                 path: '/',
@@ -37,11 +33,11 @@ const router = createBrowserRouter([
             },
             {
                 path: 'news',
-                element: <LandingAboutComponent />,
+                element: <LandingNewsComponent />,
             },
             {
                 path: 'team',
-                element: <LandingTestimonialComponent />,
+                element: <LandingTeamComponent />,
             },
             {
                 path: 'authed',

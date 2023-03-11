@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const LandingWelcomeComponent: React.FC = () => {
     return (
@@ -12,12 +13,12 @@ const LandingWelcomeComponent: React.FC = () => {
                     An organization dedicated to writing, teaching, and
                     challenging the next generation of curious learners.
                 </p>
-                <a
-                    href="#about"
+                <Link
+                    to="/news"
                     className="bg-nav-yellow rounded-full py-3 px-4 font-bold hover:bg-white hover:text-slate-800"
                 >
-                    <button type="button">Latest News</button>
-                </a>
+                    Latest News
+                </Link>
             </div>
         </div>
     )

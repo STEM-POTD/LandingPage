@@ -1,4 +1,4 @@
-import AuthorOne from '@assets/images/testimonial-author-1.png'
+import AuthorOne from '/images/testimonial-author-1.png'
 
 export const testimonials = [
     {

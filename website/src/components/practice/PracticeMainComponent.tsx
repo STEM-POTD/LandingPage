@@ -2,6 +2,7 @@ import { Problem } from '.prisma/client'
 import MathJax from 'better-react-mathjax/MathJax'
 import React, { useEffect, useRef, useState } from 'react'
 import { trpc } from 'utils/trpc'
+import { useUserLogin } from 'utils/UserContext'
 import { z } from 'zod'
 
 const PracticeMainComponent = () => {

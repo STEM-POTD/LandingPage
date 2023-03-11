@@ -9,9 +9,12 @@ module.exports = {
                 tan: '#dddbcb',
             },
             backgroundImage: {
-                'banner-image': "url('./src/assets/images/banner-bg.png')",
+                'banner-image': "url('/images/banner-bg.png')",
+            },
+            fontFamily: {
+                'sans-serif': ['Poppins', 'sans-serif'],
             },
         },
     },
-    plugins: [require('prettier-plugin-tailwindcss'), require('daisyui')],
+    plugins: [require('prettier-plugin-tailwindcss')],
 }

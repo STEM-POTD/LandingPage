@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router'
 import { trpc } from 'utils/trpc'
 import { useUserLogin } from 'utils/UserContext'
 import { z } from 'zod'
 
-export const UserHomeComponent: React.FC = () => {
+const UserHomeComponent: React.FC = () => {
     const userState = useUserLogin()
-    const navigate = useNavigate()
-
+    console.log('userState', userState)
     if (!userState.loggedIn) {
-        navigate('/login')
-        return null
+        return <Navigate to="/login" state={window.location.pathname} />
     }
 
     const { id, name, email } = userState.user
@@ -28,7 +26,7 @@ export const UserHomeComponent: React.FC = () => {
     const [showNewTeam, setShowNewTeam] = useState(false)
 
     return (
-        <div className="mt-24 mx-4">
+        <div className="mx-4 mt-24">
             <h1>Welcome {name}!</h1>
             <h2>Your email is {email}</h2>
             <UpdateUserForm />
@@ -46,7 +44,7 @@ export const UserHomeComponent: React.FC = () => {
             ) : (
                 <>
                     <button
-                        className="transition ease-in-out mt-4 mx-4 hover:bg-blue-700 font-bold py-2 px-4 rounded-2xl"
+                        className="mx-4 mt-4 rounded-2xl py-2 px-4 font-bold transition ease-in-out hover:bg-blue-700"
                         type="button"
                         onClick={() => setShowNewTeam(true)}
                     >
@@ -63,7 +61,7 @@ export const UserHomeComponent: React.FC = () => {
                         navigator.clipboard.writeText(data.team.id)
                         setShareText('Copied!')
                     }}
-                    className="transition ease-in-out mt-4 mx-4 hover:bg-blue-700 font-bold py-2 px-4 rounded-2xl"
+                    className="mx-4 mt-4 rounded-2xl py-2 px-4 font-bold transition ease-in-out hover:bg-blue-700"
                 >
                     {shareText}
                 </button>
@@ -81,7 +79,7 @@ export const UserHomeComponent: React.FC = () => {
                         onClick={() => {
                             leaveTeam({ teamId: data.team.id })
                         }}
-                        className="transition ease-in-out mt-4 mx-4 hover:bg-red-500 font-bold py-2 px-4 rounded-2xl"
+                        className="mx-4 mt-4 rounded-2xl py-2 px-4 font-bold transition ease-in-out hover:bg-red-500"
                     >
                         {(isIdle || isError) && 'Leave'}{' '}
                         {isLoading && <div>Leaving...</div>}
@@ -93,6 +91,8 @@ export const UserHomeComponent: React.FC = () => {
         </div>
     )
 }
+
+export default UserHomeComponent
 
 const JoinTeamComponent = () => {
     const [teamId, setTeamId] = useState('')
@@ -203,7 +203,7 @@ const UpdateUserForm = () => {
     return (
         <>
             <form
-                className="flex flex-col"
+                className="flex w-fit flex-col justify-evenly"
                 onSubmit={(e) => {
                     e.preventDefault()
 
@@ -252,25 +252,25 @@ const UpdateUserForm = () => {
                     console.log('updatedUser: ', updatedUser)
                 }}
             >
-                <div>
-                    <label className="mr-4 mt-2" htmlFor="username">
+                <div className="my-2 flex flex-row items-center justify-evenly space-x-4">
+                    <label htmlFor="username" className="m-0">
                         Change Username:{' '}
                     </label>
-                    <input id="username" name="username" />
+                    <input id="username" className="" name="username" />
                 </div>
 
-                <div>
-                    <label className="mr-4 mt-2" htmlFor="password">
+                <div className="my-2 flex flex-row  justify-evenly space-x-4">
+                    <label className="m-0 " htmlFor="password">
                         Change Password:{' '}
                     </label>
-                    <input id="password" name="password" />
+                    <input id="password" className="" name="password" />
                 </div>
 
-                <div>
-                    <label className="mr-4 mt-2" htmlFor="email">
+                <div className="my-2 flex flex-row items-center justify-evenly space-x-4">
+                    <label className="m-0 " htmlFor="email">
                         Change Email:{' '}
                     </label>
-                    <input id="email" name="email" />
+                    <input id="email" className="" name="email" />
                 </div>
 
                 <button type="submit">Update</button>

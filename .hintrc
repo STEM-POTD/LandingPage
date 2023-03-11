@@ -17,7 +17,8 @@
           "-webkit-text-size-adjust",
           "-moz-user-select",
           "-ms-filter",
-          "-webkit-tap-highlight-color"
+          "-webkit-tap-highlight-color",
+          "@layer"
         ]
       }
     ]
